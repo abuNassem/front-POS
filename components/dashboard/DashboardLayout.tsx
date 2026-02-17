@@ -16,17 +16,18 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Menu as MenuIcon, ShoppingCart, Package, Users, BarChart, Settings, LogOut, Store } from 'lucide-react';
+import { Menu as MenuIcon, ShoppingCart, Package, BarChart, Settings, LogOut, Store, History } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
 const drawerWidth = 240;
 
 const MENU_ITEMS = [
-    { text: 'Point of Sale', icon: <ShoppingCart size={20} />, path: '/dashboard' },
+    { text: 'Home', icon: <ShoppingCart size={20} />, path: '/dashboard' },
+
     { text: 'Overview', icon: <BarChart size={20} />, path: '/dashboard/Overview' },
-    { text: 'History', icon: <Package size={20} />, path: '/dashboard/History' },
-    { text: 'Customers', icon: <Users size={20} />, path: '/dashboard/customers' },
+    { text: 'Products', icon: <Package size={20} />, path: '/dashboard/Products' },
+    { text: 'History', icon: <History size={20} />, path: '/dashboard/History' },
     { text: 'Settings', icon: <Settings size={20} />, path: '/dashboard/settings' },
 ];
 

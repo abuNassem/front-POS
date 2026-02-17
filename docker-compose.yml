@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: twitter_frontend
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - WATCHPACK_POLLING=true
+    command: npm run dev
