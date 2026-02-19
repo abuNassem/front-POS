@@ -17,22 +17,27 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          # تحديد مكان ملف الـ lock للتخزين المؤقت
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install Dependencies
+        # نستخدم الـ working-directory لإخبار الأكشن بالدخول لمجلد frontend
+        working-directory: ./frontend
         run: npm install
 
-      # --- مرحلة الاختبار (CI) ---
       - name: Run Tests
-        run: npm test # سيقوم بتشغيل الاختبارات الموجودة في مشروعك
-        # ملاحظة: إذا فشل أي اختبار هنا، لن ينتقل للخطوات التالية
+        working-directory: ./frontend
+        # إضافة --run لضمان أن Vitest لا يدخل في الـ Watch mode داخل السيرفر
+        run: npx vitest run 
 
       - name: Build Project
+        working-directory: ./frontend
         run: npm run build
 
-      # --- مرحلة الرفع (CD) ---
-      # هذه الخطوة لن تعمل إلا إذا نجح الـ Build والـ Test
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist # تأكد إذا كان مجلد الـ build في مشروعك اسمه dist أو build
+          # في Next.js، المجلد الناتج عن Build يكون عادة .next أو out 
+          # إذا كنت تستخدم static export استخدم 'out'
+          publish_dir: ./frontend/out
