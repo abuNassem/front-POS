@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -17,27 +20,23 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          # تحديد مكان ملف الـ lock للتخزين المؤقت
-          cache-dependency-path: frontend/package-lock.json
+          # حذفنا frontend/ لأننا في الجذر الآن
+          cache-dependency-path: ./package-lock.json
 
       - name: Install Dependencies
-        # نستخدم الـ working-directory لإخبار الأكشن بالدخول لمجلد frontend
-        working-directory: ./frontend
+        # حذفنا working-directory لأننا في المكان الصحيح
         run: npm install
 
       - name: Run Tests
-        working-directory: ./frontend
-        # إضافة --run لضمان أن Vitest لا يدخل في الـ Watch mode داخل السيرفر
-        run: npm test 
+        run: npm test -- --run 
         
       - name: Build Project
-        working-directory: ./frontend
         run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # في Next.js، المجلد الناتج عن Build يكون عادة .next أو out 
-          # إذا كنت تستخدم static export استخدم 'out'
-          publish_dir: ./frontend/out
+          # إذا كان المشروع Next.js وتستخدم static export، المجلد سيكون out
+          # إذا كان React عادي (Vite) المجلد يكون dist
+          publish_dir: ./out
