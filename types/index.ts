@@ -1,12 +1,5 @@
-import { CartItem, Product } from "./product";
+import { Product } from "./product";
 
-export interface Sale {
-    id: string;
-    date: string;
-    items: CartItem[];
-    total: number;
-    paymentMethod: 'cash' | 'card' | 'online';
-}
 
 export interface User {
     id: string;
