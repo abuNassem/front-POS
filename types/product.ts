@@ -12,3 +12,8 @@ export interface Product {
 export interface CartItem extends Product {
     quantity: number;
 }
+
+
+export interface Populated {
+    _id: string, name: string, price: number, stock: number
+}

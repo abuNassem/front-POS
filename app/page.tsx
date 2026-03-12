@@ -1,3 +1,4 @@
+'use client'
 import Header from "@/components/marketing/Header";
 import HeroSection from "@/components/marketing/HeroSection";
 import PricingTable from "@/components/marketing/PricingTable";

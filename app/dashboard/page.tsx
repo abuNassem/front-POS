@@ -7,6 +7,7 @@ export default function POSPage() {
 
     return (
         <DashboardLayout>
+
             <ClientCash />
         </DashboardLayout>
     );

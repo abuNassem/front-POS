@@ -1,14 +1,16 @@
 'use client'
-import { getProduct } from "@/services/product";
-import { Product } from "@/types/product";
+import ProductCard from "@/components/dashboard/productCard";
+import { getPopulated } from "@/services/product";
+import { Populated } from "@/types/product";
+import { SaleItem } from "@/types/sale";
 import { useQuery } from "@tanstack/react-query";
-import { Plus } from "lucide-react"; // تأكد من تثبيت lucide-react للأيقونات
 
-const FamausProduct = ({ addItems }: { addItems: (product: Product) => void }) => {
+const FamausProduct = ({ addItems, sale }: { addItems: (product: Populated) => void, sale: SaleItem[] }) => {
     const { data, isLoading, error } = useQuery({
-        queryKey: ["products"],
-        queryFn: () => getProduct(),
+        queryKey: ["Populated"],
+        queryFn: () => getPopulated(),
     });
+
 
     if (isLoading) return <div className="p-4 text-center animate-pulse">جاري التحميل...</div>;
     if (error) return <div className="p-4 text-red-500 text-sm">خطأ في التحميل</div>;
@@ -19,23 +21,13 @@ const FamausProduct = ({ addItems }: { addItems: (product: Product) => void }) =
 
             {/* شبكة المنتجات - مرنة لتناسب واجهات الكاشير */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                {data?.data?.map((product: Product) => (
-                    <div
+                {data?.length && data.map((product: Populated) => (
+                    <ProductCard
                         key={product._id}
-                        className="flex flex-col justify-between p-2 bg-white border border-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow"
-                    >
-                        <h3 className="text-xs font-semibold text-gray-700 truncate mb-2" title={product.name}>
-                            {product.name}
-                        </h3>
-
-                        <button
-                            onClick={() => addItems(product)}
-                            className="flex items-center justify-between w-full bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[10px] transition-colors"
-                        >
-                            <span className="font-bold">{product.price} ر.س</span>
-                            <Plus size={14} strokeWidth={3} />
-                        </button>
-                    </div>
+                        sale={sale}
+                        product={product}
+                        onAdd={addItems}
+                    />
                 ))}
             </div>
         </div>
@@ -43,3 +35,4 @@ const FamausProduct = ({ addItems }: { addItems: (product: Product) => void }) =
 };
 
 export default FamausProduct;
+

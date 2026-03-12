@@ -10,7 +10,7 @@ const ClientProduct = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const queryClient = useQueryClient()
     const { data, isLoading, error } = useQuery({
-        queryKey: ["products"], queryFn: () => getProduct(),
+        queryKey: ["products"], queryFn: () => getProduct(null),
     });
 
     const deleteProduct = async (id: string) => {
@@ -18,7 +18,7 @@ const ClientProduct = () => {
         queryClient.invalidateQueries({ queryKey: ["products"] })
     }
     // تصفية البيانات بناءً على البحث
-    const filteredProducts = data?.data?.filter((product: any) =>
+    const filteredProducts = (data as Product[])?.filter((product: any) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
