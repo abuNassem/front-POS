@@ -28,13 +28,15 @@ const ClientHistory = () => {
         enabled: hyperd
     });
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+
+
     const handleDelete = (id: string) => {
         deleteSale(id)
-        queryClient.invalidateQueries({ queryKey: ["sales"] });
-        window.location.reload();
+        // queryClient.invalidateQueries({ queryKey: ["sales"] });
+        queryClient.setQueriesData<Sale[]>({ queryKey: ['sales'] }, (ele) => {
+            if (!ele) return [];
+            return ele.filter(item => item._id !== id)
+        })
     };
 
     if (isLoading) return <div className="p-10 text-center text-gray-500">Loading history...</div>;

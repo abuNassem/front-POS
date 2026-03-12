@@ -5,8 +5,10 @@ import SaleComponent from "./saleCompenent";
 import FamausProduct from "./famausProduct";
 import useCart from "@/hooks/useCart";
 
+
 const ClientCash = () => {
-    const { sale, deleteAll, deleteItem, handleSale, handlePaymentMethod, createSale, error, loading, success } = useCart()
+    const { sale, deleteAll, resultSearch, handleSearch, refSearch, closeSeach, deleteItem, handleSale, handlePaymentMethod, createSale, error, loading, success } = useCart()
+
     return (
         <div>
             <header className="flex justify-between">
@@ -16,7 +18,8 @@ const ClientCash = () => {
             </header>
             <div className="grid grid-cols-3 gap-4 mt-4">
                 <div className="col-span-2">
-                    <FamausProduct addItems={handleSale} />
+
+                    <FamausProduct sale={sale.items} addItems={handleSale} />
                 </div>
                 <div className="col-span-1">
                     <SaleComponent error={error} loading={loading} success={success} createSale={createSale} sale={sale} deleteItem={deleteItem} deleteAll={deleteAll} handlePaymentMethod={handlePaymentMethod} />

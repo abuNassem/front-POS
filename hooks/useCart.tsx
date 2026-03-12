@@ -1,8 +1,10 @@
 'use client'
+import { SearchProduct } from "@/services/product"
 import { createSales } from "@/services/sales"
-import { Product } from "@/types/product"
+import { Populated, Product } from "@/types/product"
 import { Sale } from "@/types/sale"
-import { useState } from "react"
+import { useQueryClient } from "@tanstack/react-query"
+import { useRef, useState } from "react"
 
 
 const useCart = () => {
@@ -12,11 +14,31 @@ const useCart = () => {
         paymentMethod: "cash"
     })
 
+    const [resultSearch, setResultSearch] = useState<Populated[]>([])
+    const refSearch = useRef<HTMLInputElement>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
 
-    const handleSale = (product: Product) => {
+
+    const querClient = useQueryClient()
+
+
+    const handleSearch = (params: string) => {
+        setTimeout(async () => {
+            const data = await SearchProduct(params)
+            setResultSearch(data.data)
+        }, 300)
+    }
+
+    const closeSeach = () => {
+        if (refSearch.current) {
+            setResultSearch([])
+            refSearch.current.value = ''
+        }
+
+    }
+    const handleSale = (product: Populated) => {
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
             setSale({
@@ -33,12 +55,16 @@ const useCart = () => {
         }
     }
 
+
+
     const handlePaymentMethod = (paymentMethod: "cash" | "card") => {
         setSale({
             ...sale,
             paymentMethod
         })
     }
+
+
 
     const deleteItem = (idProduct: string) => {
         setSale({
@@ -47,6 +73,8 @@ const useCart = () => {
             total: Number(sale.total) - Number(sale.items.find((item) => item.idProduct === idProduct)?.price)
         })
     }
+
+
     const decrementItem = (idProduct: string) => {
         setSale({
             ...sale,
@@ -54,6 +82,8 @@ const useCart = () => {
             total: Number(sale.total) - Number(sale.items.find((item) => item.idProduct === idProduct)?.price)
         })
     }
+
+
     const deleteAll = () => {
         setSale({
             items: [],
@@ -62,19 +92,48 @@ const useCart = () => {
         })
     }
 
+
     const createSale = async () => {
         setLoading(true)
         setError(null)
         try {
+            console.log(sale)
             await createSales(sale)
             setSuccess(true)
+
+            querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
+                // 1. التأكد من وجود البيانات وهيكل الـ data بداخلها
+                if (!old || !old.data) return old;
+
+                return {
+                    ...old, // الحفاظ على أي خصائص أخرى (مثل total أو page)
+                    data: old.data.map((product: Product) => {
+                        // البحث عن المنتج في المبيعات
+                        const itemInSale = sale.items.find(obj => obj.idProduct === product._id);
+
+                        if (itemInSale) {
+                            return {
+                                ...product,
+                                stock: Number(product.stock) - itemInSale.quantity
+                            };
+                        }
+
+                        return product;
+                    })
+                };
+            });
+
+
             deleteAll()
         } catch (error) {
+            console.log(error)
             setError("Failed to create sale")
         } finally {
             setLoading(false)
         }
     }
+
+
     return {
         sale,
         handleSale,
@@ -85,7 +144,11 @@ const useCart = () => {
         createSale,
         error,
         loading,
-        success
+        success,
+        closeSeach,
+        handleSearch,
+        resultSearch,
+        refSearch
     }
 }
 

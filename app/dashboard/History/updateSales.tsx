@@ -1,61 +1,27 @@
 'use client'
-import { useState } from "react";
-import { Sale, SaleItem } from "@/types/sale";
-import { X, Save, Edit3, Trash2, Hash, Banknote, CreditCard } from "lucide-react";
-import { updateSale } from "@/services/sales";
+import { X, Save, Edit3, Trash2, Banknote, CreditCard } from "lucide-react";
+import { useEditSale } from "@/hooks/editSale";
+import ConfirmCard from "@/components/dashboard/confirmCard";
+import { deleteSale } from "@/services/sales";
+import { useQueryClient } from "@tanstack/react-query";
+import { Sale } from "@/types/sale";
 
-interface EditSaleDrawerProps {
-    sale: Sale;
-}
 
-const EditSaleDrawer = ({ sale }: EditSaleDrawerProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [formData, setFormData] = useState<Sale>({ ...sale });
-    const [loading, setLoading] = useState(false);
+const EditSaleDrawer = ({ sale }: { sale: Sale }) => {
+    const { isOpen, formData, loading, setIsOpen, handleOpen, confirmDeleteSale, setConfirmDeleteSale, setFormData, handleClose, handleItemChange, handleMangStock, removeItem, handleSave } = useEditSale(sale);
 
-    const handleOpen = () => {
-        setFormData({ ...sale });
-        setIsOpen(true);
-    };
+    const queryClient = useQueryClient();
 
-    // تحديث العناصر وحساب الإجمالي
-    const handleItemChange = (index: number, field: keyof SaleItem, value: any) => {
-        const updatedItems = [...formData.items];
-        updatedItems[index] = { ...updatedItems[index], [field]: value };
+    const confirmDelete = () => {
+        setConfirmDeleteSale(false);
+        deleteSale(sale._id as string);
+        queryClient.setQueriesData<Sale[]>({ queryKey: ['sales'] }, (ele) => {
+            if (!ele) return [];
+            return ele.filter(item => item._id !== sale._id)
+        })
+        setIsOpen(false);
 
-        const newTotal = updatedItems.reduce((acc, item) => acc + (Number(item.price) * Number(item.quantity)), 0);
-        setFormData({ ...formData, items: updatedItems, total: newTotal });
-    };
-
-    // حذف عنصر من الفاتورة
-    const removeItem = (index: number) => {
-        const updatedItems = formData.items.filter((_, i) => i !== index);
-        const newTotal = updatedItems.reduce((acc, item) => acc + (Number(item.price) * Number(item.quantity)), 0);
-        setFormData({ ...formData, items: updatedItems, total: newTotal });
-    };
-
-    const handleSave = async () => {
-        setLoading(true);
-        try {
-            // استخراج البيانات النظيفة فقط (بدون التواريخ والمعرفات التلقائية)
-            const cleanData = {
-                items: formData.items.map(({ idProduct, name, quantity, price }) => ({
-                    idProduct, name, quantity, price
-                })),
-                total: formData.total,
-                paymentMethod: formData.paymentMethod
-            };
-
-            await updateSale(sale._id as string, cleanData);
-            setIsOpen(false);
-            window.location.reload(); // لتحديث الجدول بالبيانات الجديدة
-        } catch (error) {
-            console.error("Update failed", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    }
     return (
         <>
             <button onClick={handleOpen} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1">
@@ -65,7 +31,7 @@ const EditSaleDrawer = ({ sale }: EditSaleDrawerProps) => {
 
             {isOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => handleClose()} />
 
                     <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                         {/* Header */}
@@ -93,16 +59,20 @@ const EditSaleDrawer = ({ sale }: EditSaleDrawerProps) => {
                                     <CreditCard size={18} /> شبكة
                                 </button>
                             </div>
+                            <ConfirmCard message="هذا التغير سوف يحذف الفاتورةبالكامل " open={confirmDeleteSale} onConfirm={confirmDelete} onCancel={() => setConfirmDeleteSale(false)} />
 
                             {/* قائمة المنتجات */}
                             {formData.items.map((item, index) => (
                                 <div key={index} className="p-4 border rounded-xl bg-gray-50/50 relative group">
-                                    <button
-                                        onClick={() => removeItem(index)}
-                                        className="absolute -top-2 -left-2 bg-red-100 text-red-600 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                                    >
+
+                                    <ConfirmCard message="هذا التغير سوف يؤثر على  مخزون " onConfirm={() => removeItem(index, item.idProduct)}>
+
+
+
                                         <Trash2 size={14} />
-                                    </button>
+
+
+                                    </ConfirmCard>
 
                                     <div className="space-y-3">
                                         <input
@@ -118,11 +88,14 @@ const EditSaleDrawer = ({ sale }: EditSaleDrawerProps) => {
                                                 <input
                                                     type="number"
                                                     value={item.quantity}
-                                                    onChange={(e) => handleItemChange(index, 'quantity', parseInt(e.target.value) || 0)}
+                                                    max={item.maximumQuantity}
+                                                    min={1}
+                                                    onChange={(e) => { handleItemChange(index, 'quantity', parseInt(e.target.value) || 0); handleMangStock(item.idProduct, parseInt(e.target.value) || 0) }}
                                                     className="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none"
                                                 />
                                             </div>
                                             <div>
+
                                                 <label className="text-[10px] font-bold text-gray-400 block mb-1">سعر الوحدة</label>
                                                 <input
                                                     type="number"
@@ -148,7 +121,7 @@ const EditSaleDrawer = ({ sale }: EditSaleDrawerProps) => {
                                 <button onClick={() => setIsOpen(false)} className="flex-1 px-4 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-all">إلغاء</button>
                                 <button
                                     onClick={handleSave}
-                                    disabled={loading || formData.items.length === 0}
+                                    disabled={loading}
                                     className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg disabled:bg-gray-300 transition-all"
                                 >
                                     {loading ? "جاري الحفظ..." : <><Save size={18} /> حفظ التعديلات</>}

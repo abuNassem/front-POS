@@ -23,10 +23,15 @@ const updateSale = async (id: string, sale: Sale) => {
     const res = await apiClient.put(`/sales/${id}`, sale)
     return res.data
 }
+const updateProductStock = async (sale: { idProduct: string, quantity: number }[]) => {
+    const res = await apiClient.put(`/sales/product/updateStock`, sale)
+    return res.data
+}
 
 export {
     createSales,
     getSales,
     deleteSale,
-    updateSale
+    updateSale,
+    updateProductStock
 }
