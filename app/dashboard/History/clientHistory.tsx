@@ -1,102 +1,63 @@
-'use client';
-import { deleteSale, getSales } from "@/services/sales"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, IconButton, Tooltip } from "@mui/material"
-import { Edit, Trash2 } from "lucide-react";
-import EditSaleDrawer from "./updateSales";
+'use client'
+
+import React, { useMemo, useCallback, Suspense } from "react";
+import { deleteSale, getSales } from "@/services/sales";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Sale } from "@/types/sale";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@mui/material";
+
+const InvoiceCard = dynamic(() => import("./card/invoiceCard"), {
+    ssr: false,
+    loading: () => <div className="h-40 bg-gray-100 animate-pulse rounded-lg" />
+});
 
 const ClientHistory = () => {
-    const [hyperd, setHyperd] = useState(false);
-    // Standard English date formatting
-    const formatDate = (dateString: string | null) => {
-        if (!dateString) return 'N/A';
-        return new Date(dateString).toLocaleString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
-            hour: '2-digit', minute: '2-digit'
-        });
-    };
-    useEffect(() => {
-        setHyperd(true);
-    }, [])
-
     const queryClient = useQueryClient();
+
     const { data, isLoading, error } = useQuery({
         queryKey: ["sales"],
         queryFn: () => getSales(),
-        enabled: hyperd
+        staleTime: 1000 * 60 * 5, 
     });
 
+    const handleDelete = useCallback(async (id: string) => {
+        if (!window.confirm("هل تريد حذف هذه العملية من السجل؟")) return;
 
+        try {
+            await deleteSale(id);
+            queryClient.setQueryData<Sale[]>(["sales"], (oldData) => {
+                return oldData ? oldData.filter((item) => item._id !== id) : [];
+            });
+        } catch (err) {
+            console.error("Delete failed:", err);
+        }
+    }, [queryClient]);
 
-    const handleDelete = (id: string) => {
-        deleteSale(id)
-        // queryClient.invalidateQueries({ queryKey: ["sales"] });
-        queryClient.setQueriesData<Sale[]>({ queryKey: ['sales'] }, (ele) => {
-            if (!ele) return [];
-            return ele.filter(item => item._id !== id)
-        })
-    };
+    const renderedSales = useMemo(() => {
+        return data?.map((sale: Sale) => (
+            <InvoiceCard 
+                key={sale._id || Math.random()} 
+                sale={sale} 
+                handleDelete={handleDelete} 
+            />
+        ));
+    }, [data, handleDelete]);
 
-    if (isLoading) return <div className="p-10 text-center text-gray-500">Loading history...</div>;
-    if (error) return <div className="p-10 text-red-500 text-center">Error: {error.message}</div>;
-    if (!data || data.length === 0) return <div className="p-10 text-center text-gray-400 font-bold">No sales history found</div>;
+    if (isLoading) return <div className="p-10 text-center text-gray-500 animate-pulse font-medium">جاري تحميل السجل...</div>;
+    if (error) return <div className="p-10 text-red-500 text-center">خطأ في تحميل البيانات</div>;
+    if (!data || data.length === 0) return <div className="p-10 text-center text-gray-400 font-bold">لا يوجد سجل مبيعات حالياً</div>;
 
     return (
-        <TableContainer component={Paper} className="shadow-md border border-gray-200 rounded-xl overflow-hidden">
-            <Table>
-                <TableHead className="bg-gray-100">
-                    <TableRow>
-                        <TableCell className="font-bold text-gray-800">Date & Time</TableCell>
-                        <TableCell className="font-bold text-gray-800">Payment Method</TableCell>
-                        <TableCell className="font-bold text-gray-800 text-right">Total</TableCell>
-                        <TableCell className="font-bold text-gray-800 text-center">Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {data.map((sale: Sale) => (
-                        <TableRow key={sale._id} hover className="transition-colors">
-                            <TableCell className="text-gray-600 font-medium">
-                                {formatDate(String(sale.createdAt ?? null))}
-                            </TableCell>
-                            <TableCell>
-                                <Chip
-                                    label={sale.paymentMethod === 'card' ? 'Card' : 'Cash'}
-                                    size="small"
-                                    className={`font-bold uppercase ${sale.paymentMethod === 'card'
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'bg-green-100 text-green-700'
-                                        }`}
-                                />
-                            </TableCell>
-                            <TableCell className="text-right font-black text-gray-900">
-                                ${sale.total}
-                            </TableCell>
-                            <TableCell className="text-center">
-                                <div className="flex justify-center gap-1">
-                                    <Tooltip title="Edit">
-                                        <div className="flex items-center">
-                                            <EditSaleDrawer sale={sale} />
-                                        </div>
-                                    </Tooltip>
-                                    <Tooltip title="Delete">
-                                        <IconButton
-                                            onClick={() => handleDelete(sale._id ?? '')}
-                                            size="small"
-                                            className="text-red-500 hover:bg-red-50"
-                                        >
-                                            <Trash2 size={18} />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
+                        <Suspense fallback={<Skeleton variant="rectangular" width="100%" height={400} />}>
 
-export default ClientHistory;
+                            
+                    
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
+            {renderedSales}
+        </div>
+        </Suspense>
+    );
+};
+
+export default React.memo(ClientHistory);

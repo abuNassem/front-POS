@@ -29,7 +29,8 @@
     "recharts": "^3.7.0",
     "redux-persist": "^6.0.0",
     "tailwind-merge": "^3.4.1",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

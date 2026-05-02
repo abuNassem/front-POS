@@ -1,15 +1,36 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import { Inter, Tajawal } from "next/font/google"; // إضافة خط يدعم العربية بشكل أفضل
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import QueryProvider from "./queryProvider";
-import StoreProvider from "./storeProvider";
+import ContextProvider from "@/context";
+import NotificationBar from "./NotificationBar";
+import { ApiInterceptorBridge } from "@/services/ApiInterceptorBridge";
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+// الخط الأساسي للنصوص الإنجليزية
+const inter = Inter({ 
+  subsets: ["latin"], 
+  variable: '--font-inter' 
+});
+
+// خط "تجول" لإعطاء مظهر احترافي للنصوص العربية
+const tajawal = Tajawal({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "700", "800", "900"],
+  variable: '--font-tajawal'
+});
 
 export const metadata: Metadata = {
-  title: "SaaS POS System",
-  description: "Professional Cloud-based Point of Sale",
+  title: "نظام كاشير ذكي | SaaS POS System",
+  description: "نظام إدارة مبيعات سحابي احترافي يدعم الذكاء الاصطناعي",
+  manifest: "/manifest.json", // مهم إذا كنت تحول التطبيق لـ PWA
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1, // لمنع الزوم التلقائي في الآيفون عند الضغط على الحقول
 };
 
 export default function RootLayout({
@@ -18,16 +39,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    // استخدام lang="ar" و dir="rtl" لضبط اتجاه النظام بالكامل
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <body className={`${inter.variable} ${tajawal.variable} font-sans antialiased bg-gray-50 text-gray-900`}>
         <QueryProvider>
-          <StoreProvider>
-            <ThemeRegistry>
-              {children}
-            </ThemeRegistry>
-          </StoreProvider>
+          <ThemeRegistry>
+            <ContextProvider>
+              {/* المكونات الخدمية (مخفية بصرياً لكنها تعمل في الخلفية) */}
+              <ApiInterceptorBridge />
+              
+              {/* واجهة الإشعارات العلوية */}
+              <NotificationBar />
 
+              {/* المحتوى الأساسي للتطبيق */}
+              <main className="min-h-screen">
+                {children}
+              </main>
 
+            </ContextProvider>
+          </ThemeRegistry>
         </QueryProvider>
       </body>
     </html>

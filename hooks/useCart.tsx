@@ -4,7 +4,7 @@ import { createSales } from "@/services/sales"
 import { Populated, Product } from "@/types/product"
 import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
-import { useRef, useState } from "react"
+import {  useRef, useState } from "react"
 
 
 const useCart = () => {
@@ -14,8 +14,6 @@ const useCart = () => {
         paymentMethod: "cash"
     })
 
-    const [resultSearch, setResultSearch] = useState<Populated[]>([])
-    const refSearch = useRef<HTMLInputElement>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
@@ -24,20 +22,9 @@ const useCart = () => {
     const querClient = useQueryClient()
 
 
-    const handleSearch = (params: string) => {
-        setTimeout(async () => {
-            const data = await SearchProduct(params)
-            setResultSearch(data.data)
-        }, 300)
-    }
+   
 
-    const closeSeach = () => {
-        if (refSearch.current) {
-            setResultSearch([])
-            refSearch.current.value = ''
-        }
-
-    }
+   
     const handleSale = (product: Populated) => {
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
@@ -144,12 +131,8 @@ const useCart = () => {
         createSale,
         error,
         loading,
-        success,
-        closeSeach,
-        handleSearch,
-        resultSearch,
-        refSearch
-    }
+        success
+       }
 }
 
 export default useCart

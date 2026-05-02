@@ -20,15 +20,14 @@ import { Menu as MenuIcon, ShoppingCart, Package, BarChart, Settings, LogOut, St
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-const drawerWidth = 240;
+const drawerWidth = 260; // زيادة العرض قليلاً للراحة البصرية
 
 const MENU_ITEMS = [
-    { text: 'Home', icon: <ShoppingCart size={20} />, path: '/dashboard' },
-
-    { text: 'Overview', icon: <BarChart size={20} />, path: '/dashboard/Overview' },
-    { text: 'Products', icon: <Package size={20} />, path: '/dashboard/Products' },
-    { text: 'History', icon: <History size={20} />, path: '/dashboard/History' },
-    { text: 'Settings', icon: <Settings size={20} />, path: '/dashboard/settings' },
+    { text: 'الرئيسية', icon: <ShoppingCart size={20} />, path: '/dashboard' },
+    { text: 'الإحصائيات', icon: <BarChart size={20} />, path: '/dashboard/Overview' },
+    { text: 'المنتجات', icon: <Package size={20} />, path: '/dashboard/Products' },
+    { text: 'السجل', icon: <History size={20} />, path: '/dashboard/History' },
+    { text: 'الإعدادات', icon: <Settings size={20} />, path: '/dashboard/settings' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -37,154 +36,193 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-
-    const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+    const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handleMenuClose = () => setAnchorEl(null);
 
     const handleLogout = () => {
         handleMenuClose();
         router.push('/auth/login');
     };
 
-    const drawer = (
-        <div>
-            <Toolbar className="bg-gray-900 text-white">
-                <div className="flex items-center gap-2">
-                    <Store className="text-blue-400" />
-                    <Typography variant="h6" noWrap component="div" className="font-bold">
-                        SaaS POS
-                    </Typography>
-                </div>
-            </Toolbar>
-            <Divider />
-            <List className="px-2 py-4">
-                {MENU_ITEMS.map((item) => {
-                    const isActive = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path));
-                    return (
-                        <ListItem key={item.text} disablePadding className="mb-1">
-                            <ListItemButton
-                                component={Link}
-                                href={item.path}
-                                className={`rounded-lg transition-colors ${isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-                                selected={isActive}
-                            >
-                                <ListItemIcon className={`min-w-[40px] ${isActive ? 'text-blue-700' : 'text-gray-500'}`}>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={item.text}
-                                    primaryTypographyProps={{
-                                        className: `font-medium ${isActive ? 'font-bold' : ''}`
-                                    }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    );
-                })}
-            </List>
-            <Box className="mt-auto p-4">
-                <ListItemButton onClick={handleLogout} className="rounded-lg text-red-600 hover:bg-red-50">
-                    <ListItemIcon className="min-w-[40px] text-red-600">
-                        <LogOut size={20} />
-                    </ListItemIcon>
-                    <ListItemText primary="Sign Out" />
-                </ListItemButton>
-            </Box>
-        </div>
-    );
+   // ... استيراد المكونات السابقة
+
+const drawer = (
+    <Box className="flex flex-col h-full bg-white" dir="rtl">
+        <Toolbar className="bg-gray-900 text-white flex gap-3 px-4">
+            <div className="bg-blue-500 p-1.5 rounded-lg shadow-lg shadow-blue-900/20">
+                <Store size={22} className="text-white" />
+            </div>
+            <Typography variant="h6" className="font-black tracking-tight" sx={{ fontFamily: 'var(--font-tajawal)' }}>
+                SaaS POS
+            </Typography>
+        </Toolbar>
+        
+        <Divider />
+        
+        <List className="px-3 py-6 flex-grow">
+            {MENU_ITEMS.map((item) => {
+                const isActive = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path));
+                return (
+                    <ListItem key={item.text} disablePadding className="mb-2">
+                        <ListItemButton
+                            component={Link}
+                            href={item.path}
+                            prefetch={true}
+                            onClick={() => setMobileOpen(false)}
+                            // التعديل هنا: خلفية زرقاء خفيفة جداً عند الاختيار، ونص أزرق غامق
+                            className={`rounded-xl transition-all duration-200 group ${
+                                isActive 
+                                ? 'bg-blue-50 text-blue-900' // خلفية فاتحة ونص غامق جداً
+                                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                            }`}
+                            selected={isActive}
+                            sx={{
+                                "&.Mui-selected": { 
+                                    bgcolor: "#eff6ff !important", // لون blue-50 من تيلويند
+                                },
+                                "&.Mui-selected:hover": { 
+                                    bgcolor: "#dbeafe !important", // لون blue-100 عند الحوم
+                                },
+                            }}
+                        >
+                            <ListItemIcon className={`min-w-[35px] transition-colors ${
+                                isActive ? 'text-blue-700' : 'text-gray-400 group-hover:text-gray-700'
+                            }`}>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={item.text}
+                                primaryTypographyProps={{
+                                    className: `text-sm transition-all ${isActive ? 'font-black' : 'font-bold'}`,
+                                    style: { 
+                                        fontFamily: 'var(--font-tajawal)',
+                                        color: isActive ? '#1e3a8a' : 'inherit' // أزرق غامق جداً (blue-900)
+                                    }
+                                }}
+                            />
+                            {/* إضافة مؤشر جانبي صغير للعنصر النشط */}
+                            {isActive && (
+                                <Box className="w-1.5 h-6 bg-blue-600 rounded-full absolute -right-1" />
+                            )}
+                        </ListItemButton>
+                    </ListItem>
+                );
+            })}
+        </List>
+
+        <Box className="p-4 border-t border-gray-50 bg-gray-50/50">
+            <ListItemButton 
+                onClick={handleLogout} 
+                className="rounded-xl text-red-600 hover:bg-red-100/50 transition-colors"
+            >
+                <ListItemIcon className="min-w-[35px] text-red-600">
+                    <LogOut size={20} />
+                </ListItemIcon>
+                <ListItemText 
+                    primary="تسجيل الخروج" 
+                    primaryTypographyProps={{ className: "text-sm font-black", style: { fontFamily: 'var(--font-tajawal)' } }}
+                />
+            </ListItemButton>
+        </Box>
+    </Box>
+);
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' }} dir="rtl">
             <AppBar
                 position="fixed"
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
+                    mr: { sm: `${drawerWidth}px` }, // تغيير ml إلى mr لدعم الـ RTL
+                    ml: 0,
                 }}
-                className="bg-white border-b border-gray-200 shadow-sm"
+                className="bg-white/80 backdrop-blur-md border-b border-gray-100"
                 color="inherit"
                 elevation={0}
             >
-                <Toolbar>
+                <Toolbar className="justify-between">
                     <IconButton
                         color="inherit"
-                        aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ ml: 2, display: { sm: 'none' } }}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box className="flex items-center gap-4">
-                        <Typography variant="body2" className="text-gray-600 hidden sm:block">
-                            Welcome, Admin
-                        </Typography>
-                        <IconButton onClick={handleMenuClick} size="small">
-                            <Avatar sx={{ bgcolor: 'primary.main', width: 32, height: 32 }}>A</Avatar>
+
+                    <Typography variant="subtitle2" className="text-gray-400 font-medium hidden sm:block">
+                        لوحة التحكم {pathname.split('/').pop()?.replace('dashboard', 'الرئيسية')}
+                    </Typography>
+
+                    <Box className="flex items-center gap-3">
+                        <Box className="text-left hidden sm:block">
+                            <Typography variant="body2" className="font-bold text-gray-900 leading-none">مدير النظام</Typography>
+                            <Typography variant="caption" className="text-gray-400">مسؤول</Typography>
+                        </Box>
+                        <IconButton onClick={handleMenuClick} size="small" className="hover:bg-gray-100 transition-colors">
+                            <Avatar className="bg-blue-600 w-9 h-9 text-sm font-bold shadow-md shadow-blue-100">A</Avatar>
                         </IconButton>
                         <Menu
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
-                            onClick={handleMenuClose}
+                            PaperProps={{ className: "rounded-2xl shadow-xl border border-gray-50 mt-2 min-w-[150px]" }}
                             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                         >
-                            <MenuItem onClick={handleLogout}>
-                                <ListItemIcon>
-                                    <LogOut size={16} />
-                                </ListItemIcon>
-                                Sign out
+                            <MenuItem onClick={handleLogout} className="text-red-500 gap-2 font-bold text-sm py-3">
+                                <LogOut size={16} /> خروج
                             </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
             </AppBar>
+
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                aria-label="mailbox folders"
             >
                 <Drawer
                     variant="temporary"
+                    anchor="right" // فتح الدرج من اليمين
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
+                    ModalProps={{ keepMounted: true }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRadius: '20px 0 0 20px' },
                     }}
                 >
                     {drawer}
                 </Drawer>
                 <Drawer
                     variant="permanent"
+                    anchor="right"
                     sx={{
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: '1px solid #e5e7eb' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderLeft: '1px solid #f3f4f6', borderRight: 'none' },
                     }}
                     open
                 >
                     {drawer}
                 </Drawer>
             </Box>
+
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, minHeight: '100vh', bgcolor: '#f9fafb' }}
+                sx={{ 
+                    flexGrow: 1, 
+                    p: 4, 
+                    width: { sm: `calc(100% - ${drawerWidth}px)` }, 
+                    minHeight: '100vh', 
+                    bgcolor: '#fcfcfd' 
+                }}
             >
                 <Toolbar />
-                {children}
+                <div className="animate-in fade-in duration-500">
+                    {children}
+                </div>
             </Box>
         </Box>
     );
