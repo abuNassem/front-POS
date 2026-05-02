@@ -2,10 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Tajawal } from "next/font/google"; // إضافة خط يدعم العربية بشكل أفضل
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import QueryProvider from "./queryProvider";
+<<<<<<< HEAD
 import ContextProvider from "@/context";
 import NotificationBar from "./NotificationBar";
 import { ApiInterceptorBridge } from "@/services/ApiInterceptorBridge";
 import './globals.css';
+=======
+import StoreProvider from "./storeProvider";
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 
 // الخط الأساسي للنصوص الإنجليزية
 const inter = Inter({ 
@@ -43,6 +47,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className={`${inter.variable} ${tajawal.variable} font-sans antialiased bg-gray-50 text-gray-900`}>
         <QueryProvider>
+<<<<<<< HEAD
           <ThemeRegistry>
             <ContextProvider>
               {/* المكونات الخدمية (مخفية بصرياً لكنها تعمل في الخلفية) */}
@@ -58,6 +63,15 @@ export default function RootLayout({
 
             </ContextProvider>
           </ThemeRegistry>
+=======
+          <StoreProvider>
+            <ThemeRegistry>
+              {children}
+            </ThemeRegistry>
+          </StoreProvider>
+
+
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
         </QueryProvider>
       </body>
     </html>

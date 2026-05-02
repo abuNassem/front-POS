@@ -21,6 +21,7 @@ export interface CartItem extends Product {
 
 export interface Populated {
     _id: string, name: string, price: number, stock: number
+<<<<<<< HEAD
 }
 
 
@@ -35,4 +36,6 @@ export interface extraInfoProduct {
   barcode: string | null;
   image: string | null;
   totalSales: number;
+=======
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 }

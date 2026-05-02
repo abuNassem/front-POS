@@ -1,9 +1,12 @@
 'use client'
+<<<<<<< HEAD
 
 import React from 'react';
 import dynamic from 'next/dynamic';
 
 // استيراد المكونات الأساسية
+=======
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 import Header from "@/components/marketing/Header";
 import HeroSection from "@/components/marketing/HeroSection";
 

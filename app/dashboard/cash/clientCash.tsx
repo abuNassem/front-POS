@@ -6,6 +6,7 @@ import Head from "next/head";
 import { Barcode } from "lucide-react";
 import useCart from "@/hooks/useCart";
 
+<<<<<<< HEAD
 const SearchComponent = dynamic(() => import("@/app/dashboard/cash/search/searchComponent"), {
     loading: () => <div className="h-10 w-full bg-gray-100 animate-pulse rounded" />,
     ssr: false
@@ -33,6 +34,11 @@ const ClientCash = () => {
     } = useCart();
 
     const memoizedSaleItems = useMemo(() => sale.items, [sale.items]);
+=======
+
+const ClientCash = () => {
+    const { sale, deleteAll, resultSearch, handleSearch, refSearch, closeSeach, deleteItem, handleSale, handlePaymentMethod, createSale, error, loading, success } = useCart()
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 
     return (
         <>
@@ -42,6 +48,7 @@ const ClientCash = () => {
                 <meta name="robots" content="noindex, nofollow" /> 
             </Head>
 
+<<<<<<< HEAD
             <div className="p-4">
                 <header className="flex justify-between items-center gap-4">
                         <SearchComponent
@@ -51,6 +58,16 @@ const ClientCash = () => {
                     
                    
                 </header>
+=======
+            </header>
+            <div className="grid grid-cols-3 gap-4 mt-4">
+                <div className="col-span-2">
+
+                    <FamausProduct sale={sale.items} addItems={handleSale} />
+                </div>
+                <div className="col-span-1">
+                    <SaleComponent error={error} loading={loading} success={success} createSale={createSale} sale={sale} deleteItem={deleteItem} deleteAll={deleteAll} handlePaymentMethod={handlePaymentMethod} />
+>>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 
                 <main className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
                     <section className="lg:col-span-2">
