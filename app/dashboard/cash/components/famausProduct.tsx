@@ -6,6 +6,7 @@ import { Populated } from "@/types/product";
 import { SaleItem } from "@/types/sale";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { useGetProduct } from "@/repositryProduct";
 
 const ProductCard = dynamic(() => import("../card/productCard"), {
     ssr: false,
@@ -13,14 +14,11 @@ const ProductCard = dynamic(() => import("../card/productCard"), {
 });
 
 const FamausProduct = ({ addItems, sale }: { addItems: (product: Populated) => void, sale: SaleItem[] }) => {
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["Populated"],
-        queryFn: () => getPopulated(),
-        staleTime: 1000 * 60 * 5, 
-    });
+  
+    const {products,loading,error}=useGetProduct()
 
     const productGrid = useMemo(() => {
-        return data?.map((product: Populated) => (
+        return products?.map((product: Populated) => (
             <ProductCard
                 key={product._id}
                 sale={sale}
@@ -28,9 +26,9 @@ const FamausProduct = ({ addItems, sale }: { addItems: (product: Populated) => v
                 onAdd={addItems}
             />
         ));
-    }, [data, sale, addItems]);
+    }, [products, sale, addItems]);
 
-    if (isLoading) return <div className="p-4 text-center animate-pulse text-gray-500">جاري التحميل...</div>;
+    if (loading) return <div className="p-4 text-center animate-pulse text-gray-500">جاري التحميل...</div>;
     if (error) return <div className="p-4 text-red-500 text-sm">خطأ في تحميل البيانات</div>;
 
     return (

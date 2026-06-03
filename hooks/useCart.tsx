@@ -1,4 +1,5 @@
 'use client'
+import { db } from "@/localDB"
 import { SearchProduct } from "@/services/product"
 import { createSales } from "@/services/sales"
 import { Populated, Product } from "@/types/product"
@@ -11,7 +12,7 @@ import { useRef, useState } from "react"
 >>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 
 
-const useCart = () => {
+const useCart = (online:boolean) => {
     const [sale, setSale] = useState<Sale>({
         items: [],
         total: 0,
@@ -103,45 +104,109 @@ const useCart = () => {
     }
 
 
-    const createSale = async () => {
-        setLoading(true)
-        setError(null)
-        try {
-            console.log(sale)
-            await createSales(sale)
-            setSuccess(true)
+  const updateProductsStock = () => {
+    querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
 
-            querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
-                // 1. التأكد من وجود البيانات وهيكل الـ data بداخلها
-                if (!old || !old.data) return old;
+        if (!old || !old.data) return old;
 
-                return {
-                    ...old, // الحفاظ على أي خصائص أخرى (مثل total أو page)
-                    data: old.data.map((product: Product) => {
-                        // البحث عن المنتج في المبيعات
-                        const itemInSale = sale.items.find(obj => obj.idProduct === product._id);
+        return {
+            ...old,
 
-                        if (itemInSale) {
-                            return {
-                                ...product,
-                                stock: Number(product.stock) - itemInSale.quantity
-                            };
-                        }
+            data: old.data.map((product: Product) => {
 
-                        return product;
-                    })
-                };
+                const itemInSale = sale.items.find(
+                    obj => obj.idProduct === product._id
+                );
+
+                if (itemInSale) {
+                    return {
+                        ...product,
+                        stock: Number(product.stock) - itemInSale.quantity
+                    };
+                }
+
+                return product;
+            })
+        };
+    });
+};
+
+
+
+const createOnlineSale = async () => {
+
+    await createSales(sale);
+
+    updateProductsStock();
+
+    deleteAll();
+
+    setSuccess(true);
+};
+
+
+
+const createOfflineSale = async () => {
+
+    // تخزين الفاتورة محليًا
+    console.log(sale)
+    await db.invoices.add({
+        ...sale
+    });
+console.log("local sale",await db.invoices.toArray())
+    // تحديث المخزون محليًا
+    await Promise.all(
+
+        sale.items.map(async (item) => {
+
+            const product = await db.products.get(item.idProduct);
+
+            if (!product) return;
+
+            await db.products.put({
+                ...product,
+                stock: Number(product.stock) - item.quantity
             });
+        })
+    );
+
+    updateProductsStock();
+
+    deleteAll();
+
+    setSuccess(true);
+};
 
 
-            deleteAll()
-        } catch (error) {
-            console.log(error)
-            setError("Failed to create sale")
-        } finally {
-            setLoading(false)
+
+const createSale = async () => {
+
+    setLoading(true);
+
+    setError(null);
+
+    try {
+
+        if (online) {
+
+            await createOnlineSale();
+
+        } else {
+
+            await createOfflineSale();
         }
+
+    } catch (error) {
+
+        console.log(error);
+
+        setError("Failed to create sale");
+
+    } finally {
+
+        setLoading(false);
     }
+};
 
 
     return {

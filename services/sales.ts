@@ -28,10 +28,15 @@ const updateProductStock = async (sale: { idProduct: string, quantity: number }[
     return res.data
 }
 
+const syncSale=async(sales:Sale[])=>{
+    return apiClient.post('/sales/sync',sales)
+}
+
 export {
     createSales,
     getSales,
     deleteSale,
     updateSale,
-    updateProductStock
+    updateProductStock,
+    syncSale
 }

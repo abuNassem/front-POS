@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Product } from '@/types/product';
 import { ISpeechRecognition } from '@/types/speechRecognisation';
+import { INITIAL_FORM_STATE } from './rrrr/useProductForm';
 
-export const useProductVoice = (initialFormState: Product) => {
+export const useProductVoice = (initialFormState: Product,setFormData: React.Dispatch<React.SetStateAction<Product>>) => {
     const [voiceText, setVoiceText] = useState("");
     const [isListening, setIsListening] = useState(false);
     const [tempProduct, setTempProduct] = useState<Product>(initialFormState);
@@ -10,15 +11,19 @@ export const useProductVoice = (initialFormState: Product) => {
 
 
     
-    const parseText = (text: string) => {
+    const extractProductFields = (text: string) => {
         const cleaned = text.toLowerCase();
         
-        const nameMatch = cleaned.match(/(?:الاسم|منتج)\s+(.*?)(?=\s+(?:سعر|بيع|تكلفة|تكلفه|شراء|عدد|كمية|كميه|مخزون|باركود|رمز|دينار|دولار|$))/i);
-        const priceMatch = cleaned.match(/(?:سعر|بيع)\s*(\d+)/);
-        const costMatch = cleaned.match(/(?:تكلفة|تكلفه|شراء)\s*(\d+)/);
-        const stockMatch = cleaned.match(/(?:عدد|كمية|كميه|مخزون)\s*(\d+)/);
-        const barcodeMatch = cleaned.match(/(?:باركود|رمز)\s*(\d+)/);
+        const nameMatch = cleaned.match(/اسم\s+(.*?)(?=\s+(?:تصنيف|سعر|تكلفة|مخزون|باركود|$))/i);
 
+const priceMatch = cleaned.match(/سعر\s*(\d+)/i);
+
+const costMatch = cleaned.match(/تكلفة\s*(\d+)/i);
+
+const stockMatch = cleaned.match(/مخزون\s*(\d+)/i);
+
+const barcodeMatch = cleaned.match(/باركود\s*(\d+)/i);
+const categoryMatch = cleaned.match(/تصنيف\s*([^\s]+)/i);
         setTempProduct(prev => ({
             ...prev,
             name: nameMatch ? nameMatch[1].trim() : prev.name,
@@ -26,6 +31,7 @@ export const useProductVoice = (initialFormState: Product) => {
             costPrice: costMatch ? Number(costMatch[1]) : prev.costPrice,
             stock: stockMatch ? Number(stockMatch[1]) : prev.stock,
             barcode: barcodeMatch ? Number(barcodeMatch[1]) : prev.barcode,
+            category:categoryMatch ?categoryMatch[1] :prev.category,
         }));
     };
 
@@ -51,7 +57,7 @@ export const useProductVoice = (initialFormState: Product) => {
                     currentTranscript += event.results[i][0].transcript;
                 }
                 setVoiceText(currentTranscript);
-                parseText(currentTranscript);
+                extractProductFields(currentTranscript);
             };
 
             recognitionRef.current.start();
@@ -63,8 +69,12 @@ export const useProductVoice = (initialFormState: Product) => {
         recognitionRef.current?.stop();
         setVoiceText("");
         setTempProduct(initialFormState);
+        setFormData(INITIAL_FORM_STATE)
         setIsListening(false);
     };
 
-    return { voiceText, setVoiceText, isListening, tempProduct, toggleListening, resetVoice, parseText };
+    useEffect(()=>{
+        setFormData(tempProduct)
+    },[tempProduct])
+    return { voiceText, setVoiceText, isListening, tempProduct, toggleListening, resetVoice, extractProductFields };
 };

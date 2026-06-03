@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
+<<<<<<< HEAD
     baseURL: "https://back-pos-8zxn.onrender.com/api",
     headers: {
         "Content-Type": "application/json"
@@ -17,24 +18,9 @@ apiClient.interceptors.request.use(
 )
 apiClient.interceptors.response.use(
     response => {
+=======
+   baseURL: "http://localhost:5000/api",
+});
+>>>>>>> dev
 
-        return response
-    },
-    error => {
-        // const tokenError = error.config
-        // if (error.response.status === 401 && !tokenError._retry) {
-        //     // tokenError._retry = true
-        //     // window.location.href = '/login'
-        //     // apiClient.post("/auth/refresh-token").then(response=>{
-        //     //     localStorage.setItem("token",response.data.token)
-        //     //           tokenError.headers["Authorization"]=`Bearer ${response.data.token}`
-        //     //     return apiClient(tokenError)
-        //     // }).catch(error=>{
-
-        //     // })
-
-        // }
-        return Promise.reject(error)
-    }
-)
-export default apiClient
+export default apiClient;

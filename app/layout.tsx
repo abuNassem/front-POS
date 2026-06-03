@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Tajawal } from "next/font/google"; // إضافة خط يدعم العربية بشكل أفضل
+import { Inter, Tajawal } from "next/font/google"; 
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import QueryProvider from "./queryProvider";
 <<<<<<< HEAD
@@ -52,8 +52,7 @@ export default function RootLayout({
             <ContextProvider>
               {/* المكونات الخدمية (مخفية بصرياً لكنها تعمل في الخلفية) */}
               <ApiInterceptorBridge />
-              
-              {/* واجهة الإشعارات العلوية */}
+              {/* واجهة الإشعا>رات العلوية */}
               <NotificationBar />
 
               {/* المحتوى الأساسي للتطبيق */}

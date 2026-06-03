@@ -1,64 +1,90 @@
-'use client'
-import { deleteMany } from "@/services/product";
-import { createContext, ReactNode, useContext, useState } from "react";
+'use client';
+
+
+import { Product } from '@/types/product';
+
+import { useProductsQuery } from '../hooks/useProductsQuery';
+import { useProductFilter } from '../hooks/useProductFilter';
+import { useProductSelection } from '../hooks/useProductSelection';
+import { useDeleteManyProducts } from '../hooks/useDeleteManyProducts';
+import { SyncItem, useProductSync } from '../hooks/useSync';
 
 export interface ProductContextType {
+  products: Product[];
+  hasMore: boolean;
+  loadMore: () => void;
+
+  filterStatus: string;
+  handleStatusChange: (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+
   mangeMany: boolean;
   toggleMange: (val: boolean) => void;
+
   selectedIds: string[];
   toggleSelect: (id: string) => void;
   clearSelection: () => void;
-  submitIds:()=>void;
-  loadingRemov:boolean,
-  toggleLoadingRemov:(val:boolean)=>void
+
+  submitIds: () => Promise<void>;
+  loadingRemov: boolean;
+
+   clearSyncItems:()=>void
+    addProductSync:(_id:string)=>void
+    removeProductSync:(_id:string)=>void
+   syncItems:SyncItem[],
+   toggleSync:()=>void,
+   syncMode:boolean,
+   submitSync:()=>void,
+   syncLoading:boolean
+   
 }
 
-const context = createContext<ProductContextType | null>(null);
-
-const ProductContext = ({ children }: { children: ReactNode }) => {
-  const [mangeMany, setMangeMany] = useState(false);
-  const [loadingRemov,setLoadingRemov]=useState(false)
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
 
-const toggleLoadingRemov=(val:boolean)=>setLoadingRemov(val)
+export const useProductContext = ():ProductContextType => {
 
+  
 
-  const toggleMange = (val: boolean) => {
-    setMangeMany(val);
-    if (!val) setSelectedIds([]); // تنظيف القائمة عند إغلاق وضع الإدارة
-  };
+ 
 
-  const toggleSelect = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+ 
 
-  const clearSelection = () => setSelectedIds([]);
+  
 
-  const submitIds=async()=>{
-    if(Array.isArray(selectedIds) && selectedIds.length>1){
-          toggleLoadingRemov(true)
- await deleteMany(selectedIds)
-    setMangeMany(false)
-    toggleLoadingRemov(false)
-    }
-   
-  }
+  return {
+        products,
+        hasMore,
+        loadMore,
 
-  return (
-    <context.Provider
-      value={{ mangeMany, toggleMange, selectedIds, toggleSelect, clearSelection,submitIds,toggleLoadingRemov,loadingRemov}}>
-      {children}
-    </context.Provider>
-  );
+        filterStatus,
+        handleStatusChange,
+
+        mangeMany,
+        toggleMange,
+
+        selectedIds,
+        toggleSelect,
+        clearSelection,
+
+        submitIds,
+        loadingRemov,
+
+        clearSyncItems
+        ,
+          syncItems,
+          addProductSync,
+          removeProductSync,
+          toggleSync,
+          syncMode,
+          submitSync,
+          syncLoading
+          
+      }
+    
+    
 };
 
-export const useProductContext = () => {
-  const contextProd = useContext(context);
-  if (!contextProd) throw new Error("useProductContext must be used within ProductContext");
-  return contextProd;
-};
 
-export default ProductContext;
+
+

@@ -7,6 +7,7 @@ export interface SaleItem {
 
 export interface Sale {
     _id?: string;
+    id?:string,
     items: SaleItem[];
     total: number;
     paymentMethod: 'cash' | 'card';

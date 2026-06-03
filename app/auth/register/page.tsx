@@ -1,34 +1,34 @@
 import * as React from 'react';
 import { Box, Container, Typography, Paper } from '@mui/material';
 import Link from 'next/link';
-import { Store } from 'lucide-react';
-import LoginForm from './clientLogin';
+import { UserPlus } from 'lucide-react';
+import RegisterForm from './clientRegister';
 
-export default function LoginPage() {
+export default function RegisterPage() {
     return (
         <Box className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
             <Container maxWidth="xs">
                 <Paper elevation={0} className="p-8 border border-gray-200 rounded-3xl shadow-sm">
                     <Box className="text-center mb-8">
-                        <Box className="inline-flex bg-blue-50 p-4 rounded-2xl mb-4">
-                            <Store className="text-blue-600" size={32} />
+                        <Box className="inline-flex bg-green-50 p-4 rounded-2xl mb-4">
+                            <UserPlus className="text-green-600" size={32} />
                         </Box>
                         <Typography variant="h5" className="font-bold text-gray-900">
-                            تسجيل الدخول
+                            إنشاء حساب
                         </Typography>
                         <Typography variant="body2" className="text-gray-500 mt-2">
-                            مرحباً بك مجدداً في نظام POS
+                            انضم إلينا وابدأ إدارة تجارتك بكل سهولة
                         </Typography>
                     </Box>
 
-                    {/* المكون التفاعلي المفصول */}
-                    <LoginForm />
+                    {/* استدعاء المكون التفاعلي المنفصل */}
+                    <RegisterForm />
 
                     <Box className="mt-8 pt-6 border-t border-gray-100 text-center">
                         <Typography variant="body2" className="text-gray-600">
-                            ليس لديك حساب؟{' '}
-                            <Link href="/auth/register" className="text-blue-600 font-semibold hover:underline">
-                                إنشاء حساب جديد
+                            لديك حساب بالفعل؟{' '}
+                            <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+                                تسجيل الدخول
                             </Link>
                         </Typography>
                     </Box>
