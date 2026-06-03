@@ -10,7 +10,7 @@ export interface Product {
     totalSales?: number;  // إجمالي المبيعات، افتراضياً 0
     image?: string | null; // رابط الصورة
     category?: string;    // الفئة
-    
+    isSync?:boolean
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }
@@ -20,8 +20,9 @@ export interface CartItem extends Product {
 
 
 export interface Populated {
-    _id: string, name: string, price: number, stock: number
+    _id: string, name: string, price: number, stock: number,barcode:number
 }
+
 
 
 export interface extraInfoProduct {

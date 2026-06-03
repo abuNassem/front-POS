@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Barcode } from "lucide-react";
 import useCart from "@/hooks/useCart";
+import { useApi } from "@/context";
 
 const SearchComponent = dynamic(() => import("@/app/dashboard/cash/search/searchComponent"), {
     loading: () => <div className="h-10 w-full bg-gray-100 animate-pulse rounded" />,
@@ -20,6 +21,7 @@ const FamausProduct = dynamic(() => import("./components/famausProduct"), {
 });
 
 const ClientCash = () => {
+    const {online}=useApi()
     const { 
         sale, 
         deleteAll, 
@@ -30,7 +32,7 @@ const ClientCash = () => {
         error, 
         loading, 
         success 
-    } = useCart();
+    } = useCart(online);
 
     const memoizedSaleItems = useMemo(() => sale.items, [sale.items]);
 

@@ -1,33 +1,20 @@
 import { Product } from '@/types/product'
-import ProductDrawer from '../components/productDrawer'
 import { deleteProduct } from '@/services/product'
+import Link from 'next/link';
 
-const ProductCard = ({ product, mangeMany, selectedIds, toggleSelect }: 
+const ProductCard = ({ product,modelView}: 
   {
-   product: Product &{isActive:boolean} ;
-  mangeMany: boolean;
-  toggleMange: (val: boolean) => void;
-selectedIds: string[];toggleSelect: (id: string) => void;}) => {
-  // هل المنتج مختار حالياً؟
-  const isSelected = selectedIds?.includes(product._id as string);
-
+   product: Product &{isActive:boolean,isSync:boolean} ;
+   modelView:'normal'|'deleteMany'|'sync'
+  }) => {
+    
+  
   return (
     <div 
       className={`bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border relative flex flex-col
-      ${isSelected ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-100'}`}
+       border-gray-100`}
     >
-      {/* 1. المربع الاختياري (يظهر فقط في وضع الإدارة) */}
-      {mangeMany && (
-        <div className="absolute top-3 left-3 z-20">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={() => toggleSelect(product._id as string)}
-            className="w-6 h-6 rounded-md border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer shadow-sm"
-          />
-        </div>
-      )}
-
+      
       {/* Image Section */}
       <div className="h-48 bg-gray-200 relative overflow-hidden group">
         {product.image ? (
@@ -77,25 +64,42 @@ selectedIds: string[];toggleSelect: (id: string) => void;}) => {
       </div>
 
       {/* Actions Section */}
-      <div className="p-4 bg-gray-50 border-t flex justify-between gap-2 mt-auto">
-        {!mangeMany ? (
-          <>
-            <div className="flex-grow">
-              <ProductDrawer product={product} lable="تعديل" />
-            </div>
-            <button
-              onClick={() => deleteProduct(product._id as string)}
-              className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg border border-red-200 transition-colors text-sm font-medium"
-            >
-              حذف
-            </button>
-          </>
-        ) : (
-          <div className="w-full text-center py-2 text-xs text-blue-600 font-bold bg-blue-50 rounded-lg">
-            {isSelected ? "تم التحديد" : "اضغط للتحديد"}
-          </div>
-        )}
-      </div>
+      {/* Actions Section */}
+<div className="p-4 bg-gray-50 border-t flex justify-between gap-2 mt-auto">
+
+ 
+  {modelView=='normal' && (
+    <>
+      
+      <button
+        onClick={() =>
+          deleteProduct(product._id as string)
+        }
+        className="
+          px-4 py-2 text-red-600
+          hover:bg-red-50 rounded-lg
+          border border-red-200
+          transition-colors text-sm font-medium
+        "
+      >
+        حذف
+      </button>
+      <Link href={`/dashboard/Products/${product._id as string}/edit`}>
+      <button
+        
+        className="
+          px-4 py-2 text-blue-600
+          hover:bg-red-50 rounded-lg
+          border border-red-200
+          transition-colors text-sm font-medium
+        "
+      >
+        تعديل
+      </button>
+      </Link>
+    </>
+  )}
+</div>
     </div>
   )
 }

@@ -87,13 +87,11 @@ const SearchComponent = () => {
 
                         {/* Results Grid */}
                         {resultSearch.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pb-2">
+                            <div onClick={(t)=>t.stopPropagation()} className="grid grid-cols-1 sm:grid-cols-2 gap-5 pb-2">
                                 {resultSearch.map((product) => (
                                     <div 
                                         key={product._id} 
-                                        className="transform transition-transform hover:scale-[1.02] active:scale-95"
-                                        onClick={closeSearch} // اختيار منتج يغلق البحث
-                                    >
+                                        className="transform transition-transform hover:scale-[1.02] active:scale-95" >
                                         <ProductCard product={product} />
                                     </div>
                                 ))}

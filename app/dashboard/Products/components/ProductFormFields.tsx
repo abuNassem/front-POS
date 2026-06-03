@@ -15,16 +15,24 @@ import {
 
 interface Props {
     formData: Product;
-    setFormData: (data: Product) => void;
+    setFormData:React.Dispatch<React.SetStateAction<Product>>;
     onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+
 const ProductFormFields = ({ formData, setFormData, onFileChange }: Props) => {
-    
-    // استخدام useCallback لمنع إعادة تعريف الدالة عند كل رندر
-    const updateField = useCallback((field: keyof Product, value: any) => {
-        setFormData({ ...formData, [field]: value });
-    }, [formData, setFormData]);
+   const updateField = useCallback(
+  (
+    field: keyof Product,
+    value: Product[keyof Product]
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  },
+  [setFormData]
+);
 
     const handleUploadClick = () => {
         document.getElementById('image-upload')?.click();
@@ -164,7 +172,7 @@ const ProductFormFields = ({ formData, setFormData, onFileChange }: Props) => {
                     <div className="relative">
                         <input 
                             type="number" 
-                            value={formData.costPrice} 
+                            value={String(formData.costPrice) } 
                             onChange={(e) => updateField('costPrice', Number(e.target.value))} 
                             className="w-full border border-gray-200 p-3.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all" 
                             placeholder="0.00"

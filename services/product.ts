@@ -1,23 +1,28 @@
-import { extraInfoProduct, Populated, Product } from "@/types/product"
+import { Populated, Product } from "@/types/product"
 import apiClient from "./index"
 import { ProductImport } from "@/app/dashboard/Products/components/import"
+import { db } from "@/localDB";
 
-export const getProduct = async (id: string | null,page?:number) => {
-    if (id) {
-        const res = await apiClient.get<Product>(`/product?id=${id}`)
-        return res.data
-    } else {
-        const res = await apiClient.get<Product[]>(`/product?page=${page}`)
-        console.log('page',page)
-        return res.data
-    }
-
-}
+export const getProduct = async (page: number, status: string) => {
+    const params = new URLSearchParams();
+    
+    if (page) params.append("page", page.toString());
+    if (status) params.append("status", status);
+    const response = apiClient.get(`/product?${params.toString()}`);
+    return (await response).data
+};
 
 export const getPopulated = async () => {
     const res = await apiClient.get<Populated[]>('/product/populated')
+    if(Array.isArray(res.data)&&res.data.length){
+await db.products.bulkPut(res.data);
+console.log('res',res.data)
+    console.log('localProduct',await db.products.toArray())
+    }
+
     return res.data
 }
+
 
 export const addProduct = (product: Product) => {
     try{
@@ -55,3 +60,24 @@ export const deleteMany=(ids:string[])=>{
          return apiClient.post('/product/deleteMany',{ids})
     }
 }
+
+export const saveLocal=async(products:{_id:string,isSync:boolean}[])=>{
+    try{
+          const res=await apiClient.put('/product/sync/saveLocal',products)
+    return res.data
+
+    }catch(err){
+        console.log(err)
+    }
+  
+}
+
+export const getSyncProduct=async()=>{
+    const res=await apiClient.get('/product/sync/product')
+    return res.data
+}
+
+export const getProductById = async (id: string) => {
+    const response = await apiClient.get(`/product/${id}`);
+    return response.data.data;
+};
