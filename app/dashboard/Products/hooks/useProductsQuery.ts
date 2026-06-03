@@ -12,20 +12,27 @@ export const useProductsQuery = (filterStatus: string) => {
 
   const { data, isFetching } = useQuery({
     queryKey: ['products-list', filterStatus, page],
-    queryFn: () => getProduct(page, filterStatus),
-    keepPreviousData: true,
+    queryFn: () => getProduct(page, filterStatus)
   });
 
   useEffect(() => {
-    setPage(1);
+    const handleState=()=>{
+  setPage(1);
     setProducts([]);
+    }
+    handleState()
+  
   }, [filterStatus]);
 
   useEffect(() => {
     if (!data) return;
-
-    setHasMore(data.hasMore);
+     const handleState=()=>{
+ setHasMore(data.hasMore);
     setProducts(data.data);
+    }
+    handleState()
+
+    
   }, [data]);
 
   const loadMore = () => {

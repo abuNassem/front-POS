@@ -1,10 +1,11 @@
 import { Product } from '@/types/product'
 import { deleteProduct } from '@/services/product'
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ProductCard = ({ product,modelView}: 
   {
-   product: Product &{isActive:boolean,isSync:boolean} ;
+   product: Product  
    modelView:'normal'|'deleteMany'|'sync'
   }) => {
     
@@ -18,11 +19,12 @@ const ProductCard = ({ product,modelView}:
       {/* Image Section */}
       <div className="h-48 bg-gray-200 relative overflow-hidden group">
         {product.image ? (
-          <img
+          <Image
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          />
+           />
+          
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400">
             لا توجد صورة
@@ -41,7 +43,7 @@ const ProductCard = ({ product,modelView}:
       </div>
 
       {/* Content Section */}
-      <div className="p-5 flex-grow">
+      <div className="p-5 grow">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-bold text-gray-800 truncate">{product.name}</h3>
           <span className="text-blue-700 font-black text-xl">${product.price}</span>

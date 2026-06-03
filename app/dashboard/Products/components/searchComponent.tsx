@@ -61,13 +61,13 @@ const SearchComponent = () => {
             {searchValue && (
                 <>
                     {/* Overlay خلفية شفافة لإغلاق البحث عند الضغط خارجاً */}
-                    <div className="fixed inset-0 z-[998]" onClick={closeSearch} />
+                    <div className="fixed inset-0 z-998" onClick={closeSearch} />
                     
                     <div 
                         ref={scrollRef}
-                        className="absolute top-full mt-3 left-0 md:-left-40 w-[92vw] md:w-[650px] 
-                                 max-h-[550px] bg-white/95 backdrop-blur-md border border-gray-100 
-                                 rounded-2xl shadow-2xl z-[999] overflow-y-auto p-5 animate-in slide-in-from-top-2 duration-200"
+                        className="absolute top-full mt-3 left-0 md:-left-40 w-[92vw] md:w-162.5 
+                                 max-h-137.5 bg-white/95 backdrop-blur-md border border-gray-100 
+                                 rounded-2xl shadow-2xl z-999 overflow-y-auto p-5 animate-in slide-in-from-top-2 duration-200"
                     >
                         {/* Header of Results */}
                         <div className="flex justify-between items-center mb-5 border-b border-gray-50 pb-3">
@@ -92,7 +92,7 @@ const SearchComponent = () => {
                                     <div 
                                         key={product._id} 
                                         className="transform transition-transform hover:scale-[1.02] active:scale-95" >
-                                        <ProductCard product={product} />
+                                        <ProductCard modelView="normal" product={product} />
                                     </div>
                                 ))}
                             </div>

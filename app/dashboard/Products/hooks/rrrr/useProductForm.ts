@@ -23,7 +23,11 @@ export const useProductForm = (
 
   useEffect(() => {
     if (initialData) {
+      const handleState=()=>{
       setFormData(initialData);
+
+      }
+      handleState()
     }
   }, [initialData]);
 

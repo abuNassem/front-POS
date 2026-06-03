@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Paper, Box, Typography } from '@mui/material';
 import { DollarSign, ShoppingBag, Package, BadgeDollarSign } from 'lucide-react';
-import { DashboardStats } from '@/types';
+import { DashboardStats } from '@/types/overview';
 
 interface StatsCardsProps {
     data: DashboardStats | null;

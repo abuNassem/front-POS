@@ -21,21 +21,8 @@ const ClientHistory = () => {
         staleTime: 1000 * 60 * 5, 
     });
 
-<<<<<<< HEAD
     const handleDelete = useCallback(async (id: string) => {
-        if (!window.confirm("هل تريد حذف هذه العملية من السجل؟")) return;
-=======
-
-
-    const handleDelete = (id: string) => {
-        deleteSale(id)
-        // queryClient.invalidateQueries({ queryKey: ["sales"] });
-        queryClient.setQueriesData<Sale[]>({ queryKey: ['sales'] }, (ele) => {
-            if (!ele) return [];
-            return ele.filter(item => item._id !== id)
-        })
-    };
->>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
+        
 
         try {
             await deleteSale(id);
@@ -50,7 +37,7 @@ const ClientHistory = () => {
     const renderedSales = useMemo(() => {
         return data?.map((sale: Sale) => (
             <InvoiceCard 
-                key={sale._id || Math.random()} 
+                key={sale._id} 
                 sale={sale} 
                 handleDelete={handleDelete} 
             />

@@ -1,30 +1,11 @@
-<<<<<<< HEAD
 
 import { Populated, Product } from "@/types/product"
 
-=======
-import { Populated, Product } from "@/types/product"
->>>>>>> dev
-import apiClient from "./index"
 import { ProductImport } from "@/app/dashboard/Products/components/import"
 import { db } from "@/localDB";
+import apiClient from ".";
 
-<<<<<<< HEAD
-export const getProduct = async (id: string | null,page?:number) => {
 
-    if (id) {
-        const res = await apiClient.get<Product>(`/product?id=${id}`)
-        return res.data
-    } else {
-
-        const res = await apiClient.get<Product[]>(`/product?page=${page}`)
-        console.log('page',page)
-
-        return res.data
-    }
-
-}
-=======
 export const getProduct = async (page: number, status: string) => {
     const params = new URLSearchParams();
     
@@ -33,7 +14,7 @@ export const getProduct = async (page: number, status: string) => {
     const response = apiClient.get(`/product?${params.toString()}`);
     return (await response).data
 };
->>>>>>> dev
+
 
 export const getPopulated = async () => {
     const res = await apiClient.get<Populated[]>('/product/populated')
@@ -82,11 +63,9 @@ export const deleteMany=(ids:string[])=>{
     if(Array.isArray(ids) && ids.length>1){
          return apiClient.post('/product/deleteMany',{ids})
     }
-<<<<<<< HEAD
 
 }
-=======
-}
+
 
 export const saveLocal=async(products:{_id:string,isSync:boolean}[])=>{
     try{
@@ -108,4 +87,4 @@ export const getProductById = async (id: string) => {
     const response = await apiClient.get(`/product/${id}`);
     return response.data.data;
 };
->>>>>>> dev
+

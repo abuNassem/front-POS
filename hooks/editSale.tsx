@@ -18,7 +18,7 @@ export const useEditSale = (sale: Sale) => {
     const { data: products } = useQuery<Product[]>({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await getProduct(null);
+            const res = await getProduct(1,'all');
             return res as Product[];
         }
     });
@@ -81,7 +81,7 @@ export const useEditSale = (sale: Sale) => {
 
 
     // change quantity
-    const handleItemChange = (index: number, field: keyof SaleItem, value: any) => {
+    const handleItemChange = (index: number, field: keyof SaleItem, value:  Product[keyof Product]) => {
         const updatedItems = [...formData.items];
         let newValue = value;
 

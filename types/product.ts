@@ -11,6 +11,7 @@ export interface Product {
     image?: string | null; // رابط الصورة
     category?: string;    // الفئة
     isSync?:boolean
+    isActive?:boolean
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }
@@ -20,12 +21,8 @@ export interface CartItem extends Product {
 
 
 export interface Populated {
-<<<<<<< HEAD
-    _id: string, name: string, price: number, stock: number
-<<<<<<< HEAD
-=======
+
     _id: string, name: string, price: number, stock: number,barcode:number
->>>>>>> dev
 }
 
 
@@ -41,6 +38,4 @@ export interface extraInfoProduct {
   barcode: string | null;
   image: string | null;
   totalSales: number;
-=======
->>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
 }

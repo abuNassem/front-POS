@@ -4,11 +4,10 @@ import React, { useMemo } from 'react';
 import { Box, Typography, Paper, LinearProgress } from '@mui/material';
 import { Crown, TrendingUp } from 'lucide-react';
 
-interface TopProduct {
-    _id: string;
+export interface TopProduct {
     name: string;
     totalSales: number;
-    salesCount: number;
+
 }
 
 export default function TopProducts({ products }: { products: TopProduct[] }) {
@@ -52,7 +51,7 @@ export default function TopProducts({ products }: { products: TopProduct[] }) {
                     const progressValue = (product.totalSales / maxSales) * 100;
                     
                     return (
-                        <Box key={product._id} className="flex items-start gap-4">
+                        <Box key={index} className="flex items-start gap-4">
                             {/* رقم الترتيب */}
                             <Typography 
                                 variant="h6" 

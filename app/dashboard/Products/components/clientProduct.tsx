@@ -1,9 +1,6 @@
 'use client';
-
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
-
-
 import ExcelImportComponent from './import';
 import { useProductSync } from '../hooks/useSync';
 import ActionToolbar from './actionToolBar';
@@ -19,10 +16,7 @@ const SearchComponent = dynamic(
   { ssr: false }
 );
 
-const AddAndUpdate = dynamic(
-  () => import('./productForm'),
-  { ssr: false }
-);
+
 
 const ProductCard = dynamic(
   () => import('../card/productCard'),
@@ -215,7 +209,6 @@ modelView === 'normal'
       </div>
       
 
-      {/* Load More */}
       {hasMore && (
         <div className='flex justify-center mt-10'>
           <button onClick={loadMore}>

@@ -1,15 +1,11 @@
 'use client'
 import { db } from "@/localDB"
-import { SearchProduct } from "@/services/product"
 import { createSales } from "@/services/sales"
 import { Populated, Product } from "@/types/product"
 import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
-<<<<<<< HEAD
-import {  useRef, useState } from "react"
-=======
-import { useRef, useState } from "react"
->>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
+
+import {   useState } from "react"
 
 
 const useCart = (online:boolean) => {
@@ -19,8 +15,6 @@ const useCart = (online:boolean) => {
         paymentMethod: "cash"
     })
 
-    const [resultSearch, setResultSearch] = useState<Populated[]>([])
-    const refSearch = useRef<HTMLInputElement>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
@@ -29,26 +23,6 @@ const useCart = (online:boolean) => {
     const querClient = useQueryClient()
 
 
-<<<<<<< HEAD
-   
-
-   
-=======
-    const handleSearch = (params: string) => {
-        setTimeout(async () => {
-            const data = await SearchProduct(params)
-            setResultSearch(data.data)
-        }, 300)
-    }
-
-    const closeSeach = () => {
-        if (refSearch.current) {
-            setResultSearch([])
-            refSearch.current.value = ''
-        }
-
-    }
->>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
     const handleSale = (product: Populated) => {
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
@@ -105,7 +79,7 @@ const useCart = (online:boolean) => {
 
 
   const updateProductsStock = () => {
-    querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
+    querClient.setQueriesData({ queryKey: ["products"] }, (old: {data:Product[]}) => {
 
         if (!old || !old.data) return old;
 
@@ -153,7 +127,6 @@ const createOfflineSale = async () => {
     await db.invoices.add({
         ...sale
     });
-console.log("local sale",await db.invoices.toArray())
     // تحديث المخزون محليًا
     await Promise.all(
 
@@ -219,17 +192,9 @@ const createSale = async () => {
         createSale,
         error,
         loading,
-<<<<<<< HEAD
         success
        }
-=======
-        success,
-        closeSeach,
-        handleSearch,
-        resultSearch,
-        refSearch
-    }
->>>>>>> 47f7505cb4d54d229acaadaebaacb604e90e97cd
+
 }
 
 export default useCart

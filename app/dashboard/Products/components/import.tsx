@@ -25,6 +25,7 @@ const ExcelImportComponent: React.FC = () => {
     }
   };
 
+
   const handleFinalUpload = async () => {
       await ImportProduct(data, importMode);
      reset()

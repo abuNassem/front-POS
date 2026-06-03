@@ -1,11 +1,10 @@
 
 // services/overviewService.ts
-import { DashboardStats } from '@/types'; // استيراد الأنواع
 import apiClient from '.';
-import { LowStockProduct } from '@/types/overview';
+import { DashboardStats, LowStockProduct } from '@/types/overview';
 
 // دالة جلب الإحصائيات العامة
-export const getPublicStats = async (): Promise<DashboardStats> => {
+export const getPublicStats = async (): Promise<DashboardStats |null> => {
     const response = await apiClient.get('/overview/public');
     return response.data;
 };

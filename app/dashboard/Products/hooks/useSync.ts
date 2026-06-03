@@ -1,7 +1,7 @@
 'use client';
 
-import { getSyncProduct, saveLocal } from '@/services/product';
-import { useEffect, useState } from 'react';
+import { saveLocal } from '@/services/product';
+import {  useState } from 'react';
 
 export type SyncItem = {
   _id: string;
@@ -66,25 +66,9 @@ const submitSync=async()=>{
   }catch(err){
     setSyncLoading(false
     )
-  }
+  }}
    
-}
 
-
-
-  useEffect(() => {
-    console.log('syncItems', syncItems);
-    const syncTrue=syncItems.filter(ele=>ele.isSync)
-    setIsMax(syncTrue.length>2)
-  }, [syncItems]);
-
-  // useEffect(() => {
-  //   const syncProduct=async()=>{
-  //     const product=await getSyncProduct()
-  //     setSyncItems(product)
-  //   }
-  //   syncProduct()
-  // }, [modelView]);
 
   return {
     syncItems,
