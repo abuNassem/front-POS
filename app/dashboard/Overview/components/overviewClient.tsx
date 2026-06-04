@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { Box, CircularProgress, Skeleton } from '@mui/material';
-import { DashboardStats } from '@/types';
-import { LowStockProduct } from '@/types/overview';
+import { DashboardStats, LowStockProduct, TopSellingProduct } from '@/types/overview';
 import { getLowStockProducts, getPublicStats, getTopSelling } from '@/services/overviw';
 
 const StatsCards = dynamic(() => import("../card/stateCards"), {
@@ -25,7 +24,7 @@ const LowStockAlerts = dynamic(() => import("./LowStockAlerts"), {
 export default function StoreOverview() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [lowStock, setLowStock] = useState<LowStockProduct[]>([]);
-    const [topSelling, setTopSelling] = useState<any[]>([]);
+    const [topSelling, setTopSelling] = useState<TopSellingProduct[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

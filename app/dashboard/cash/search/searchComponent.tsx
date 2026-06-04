@@ -4,7 +4,7 @@ import React, { Suspense, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { Search, X } from "lucide-react";
 import { SaleItem } from "@/types/sale";
-import { Populated } from "@/types/product";
+import { ProductSummary } from "@/types/product";
 import { useSearch } from "./logic/searchLogic";
 
 const ProductCard = dynamic(() => import("../card/productCard"), {
@@ -18,7 +18,7 @@ const SearchComponent = ({
     addToCart,
     sale
 }: {
-    addToCart: (product: Populated) => void,
+    addToCart: (product: ProductSummary) => void,
     sale: SaleItem[]
 }) => {
 

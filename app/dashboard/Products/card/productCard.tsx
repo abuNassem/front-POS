@@ -2,13 +2,11 @@ import { Product } from '@/types/product'
 import { deleteProduct } from '@/services/product'
 import Link from 'next/link';
 
-const ProductCard = ({ product,modelView}: 
+const ProductCard = ({ product, modelView = 'normal' }:
   {
-   product: Product &{isActive:boolean,isSync:boolean} ;
-   modelView:'normal'|'deleteMany'|'sync'
+    product: Product;
+    modelView?: 'normal' | 'deleteMany' | 'sync'
   }) => {
-    
-  
   return (
     <div 
       className={`bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border relative flex flex-col

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { getProduct } from '@/services/product';
 import { Product } from '@/types/product';
 
@@ -13,7 +13,7 @@ export const useProductsQuery = (filterStatus: string) => {
   const { data, isFetching } = useQuery({
     queryKey: ['products-list', filterStatus, page],
     queryFn: () => getProduct(page, filterStatus),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 
   useEffect(() => {

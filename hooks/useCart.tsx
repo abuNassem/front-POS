@@ -2,7 +2,7 @@
 import { db } from "@/localDB"
 import { SearchProduct } from "@/services/product"
 import { createSales } from "@/services/sales"
-import { Populated, Product } from "@/types/product"
+import { ProductSummary, Product } from "@/types/product"
 import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
 import {  useRef, useState } from "react"
@@ -26,7 +26,7 @@ const useCart = (online:boolean) => {
    
 
    
-    const handleSale = (product: Populated) => {
+    const handleSale = (product: ProductSummary) => {
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
             setSale({

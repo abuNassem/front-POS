@@ -1,11 +1,11 @@
-import { Populated } from '@/types/product';
+import { ProductSummary } from '@/types/product';
 import { Sale } from '@/types/sale';
 import Dexie, { Table } from 'dexie';
 
 
 
 class AppDatabase extends Dexie {
-  products!: Table<Populated>;
+  products!: Table<ProductSummary>;
   invoices!: Table<Sale>
 
 

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { getPopulated } from "@/services/product";
-import { Populated } from "@/types/product";
+import { ProductSummary } from "@/types/product";
 import { SaleItem } from "@/types/sale";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
@@ -13,12 +13,12 @@ const ProductCard = dynamic(() => import("../card/productCard"), {
     loading: () => <div className="h-32 bg-gray-100 animate-pulse rounded-md" />
 });
 
-const FamausProduct = ({ addItems, sale }: { addItems: (product: Populated) => void, sale: SaleItem[] }) => {
+const FamausProduct = ({ addItems, sale }: { addItems: (product: ProductSummary) => void, sale: SaleItem[] }) => {
   
     const {products,loading,error}=useGetProduct()
 
     const productGrid = useMemo(() => {
-        return products?.map((product: Populated) => (
+        return products?.map((product: ProductSummary) => (
             <ProductCard
                 key={product._id}
                 sale={sale}

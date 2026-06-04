@@ -1,12 +1,12 @@
 'use client'
 import { isStockExceeded } from "@/hooks/controlProductStock";
-import { Populated } from "@/types/product";
+import { ProductSummary } from "@/types/product";
 import { SaleItem } from "@/types/sale";
 import { Plus } from "lucide-react";
 
 interface ProductCardProps {
-    product: Populated;
-    onAdd: (product: Populated) => void;
+    product: ProductSummary;
+    onAdd: (product: ProductSummary) => void;
     sale: SaleItem[]
 }
 

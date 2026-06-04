@@ -18,8 +18,8 @@ export const useEditSale = (sale: Sale) => {
     const { data: products } = useQuery<Product[]>({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await getProduct(null);
-            return res as Product[];
+            const res = await getProduct();
+            return res.data;
         }
     });
 
