@@ -8,12 +8,11 @@ const ProductCard = ({ product, modelView = 'normal' }:
     modelView?: 'normal' | 'deleteMany' | 'sync'
   }) => {
   return (
-    <div 
+    <div
       className={`bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border relative flex flex-col
        border-gray-100`}
     >
-      
-      {/* Image Section */}
+
       <div className="h-48 bg-gray-200 relative overflow-hidden group">
         {product.image ? (
           <img
@@ -27,7 +26,6 @@ const ProductCard = ({ product, modelView = 'normal' }:
           </div>
         )}
 
-        {/* 2. شارة الحالة (Active/Inactive) */}
         <div className={`absolute bottom-2 left-2 px-2 py-1 rounded-md text-[10px] font-bold uppercase shadow-sm
           ${product.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
           {product.isActive ? '● نشط' : '○ غير نشط'}
@@ -38,7 +36,6 @@ const ProductCard = ({ product, modelView = 'normal' }:
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-5 flex-grow">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-bold text-gray-800 truncate">{product.name}</h3>
@@ -61,14 +58,11 @@ const ProductCard = ({ product, modelView = 'normal' }:
         </div>
       </div>
 
-      {/* Actions Section */}
-      {/* Actions Section */}
 <div className="p-4 bg-gray-50 border-t flex justify-between gap-2 mt-auto">
 
- 
   {modelView=='normal' && (
     <>
-      
+
       <button
         onClick={() =>
           deleteProduct(product._id as string)
@@ -84,7 +78,7 @@ const ProductCard = ({ product, modelView = 'normal' }:
       </button>
       <Link href={`/dashboard/Products/${product._id as string}/edit`}>
       <button
-        
+
         className="
           px-4 py-2 text-blue-600
           hover:bg-red-50 rounded-lg

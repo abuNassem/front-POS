@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 
-
 import ExcelImportComponent from './import';
 import { useProductSync } from '../hooks/useSync';
 import ActionToolbar from './actionToolBar';
@@ -12,7 +11,6 @@ import { useDeleteManyProducts } from '../hooks/useDeleteManyProducts';
 import ProductActionWrapper from './ProductActionWrapper';
 import { useProductsQuery } from '../hooks/useProductsQuery';
 import { useProductFilter } from '../hooks/useProductFilter';
-
 
 const SearchComponent = dynamic(
   () => import('./searchComponent'),
@@ -57,7 +55,6 @@ const ClientProduct = () => {
     syncLoading
   }=useProductSync(modelView)
 
-
    const {
       toggleMange,
       selectedIds,
@@ -74,8 +71,6 @@ const ClientProduct = () => {
     setProducts,
     toggleMange,
   });
-
-
 
   const getWrapperConfig = (_id: string,isSync:boolean) => {
   switch (modelView) {
@@ -124,7 +119,7 @@ const ClientProduct = () => {
     isLoading: loadingRemov,
   }
 };
-const config =  
+const config =
 modelView === 'normal'
     ? null
     : actionConfig[modelView]
@@ -142,7 +137,6 @@ modelView === 'normal'
       className='p-4 w-full bg-gray-50 min-h-screen relative'
       dir='rtl'
     >
-
 
       <div className='flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white p-6 rounded-2xl shadow-sm border'>
 
@@ -163,7 +157,7 @@ modelView === 'normal'
         </div>
 
         <div className='flex gap-3 flex-wrap'>
-          
+
           <button
             onClick={() => {
 
@@ -189,33 +183,26 @@ modelView === 'normal'
 
           <SearchComponent />
 
-        
       </div>
       </div>
 
-      {/* Products */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
         {products.map(product => (
-          
-          
+
                   <div   key={product._id} className=' w-full h-full relative'>
-                 
+
                    <ProductActionWrapper {...getWrapperConfig(product._id as string,product.isSync as boolean)}/>
 
-               
                     <ProductCard
-                    
+
             product={product}
             modelView={modelView}
           />
                   </div>
 
-          
         ))}
       </div>
-      
 
-      {/* Load More */}
       {hasMore && (
         <div className='flex justify-center mt-10'>
           <button onClick={loadMore}>

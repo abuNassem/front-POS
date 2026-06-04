@@ -12,7 +12,7 @@ export const useProductSync = (modelView:'normal'|'sync'|'deleteMany') => {
   const [syncItems, setSyncItems] = useState<SyncItem[]>([]);
   const [isMax,setIsMax]=useState<boolean>(syncItems.length>10)
 const [syncLoading,setSyncLoading]=useState(false)
-  
+
   const addProductSync = (_id: string) => {
     const exist=syncItems.find(ele=>ele._id==_id)
     if(exist){
@@ -28,8 +28,6 @@ const [syncLoading,setSyncLoading]=useState(false)
     }
   };
 
-
-
   const removeProductSync = (_id: string) => {
     const exist=syncItems.find(ele=>ele._id==_id)
     if(exist){
@@ -44,11 +42,7 @@ const [syncLoading,setSyncLoading]=useState(false)
 
     }
   };
-  
-  
-  /*
-    تنظيف الكل بعد الإرسال
-  */
+
   const clearSyncItems = () => {
     setSyncItems([]);
   };
@@ -67,24 +61,13 @@ const submitSync=async()=>{
     setSyncLoading(false
     )
   }
-   
+
 }
 
-
-
   useEffect(() => {
-    console.log('syncItems', syncItems);
     const syncTrue=syncItems.filter(ele=>ele.isSync)
     setIsMax(syncTrue.length>2)
   }, [syncItems]);
-
-  // useEffect(() => {
-  //   const syncProduct=async()=>{
-  //     const product=await getSyncProduct()
-  //     setSyncItems(product)
-  //   }
-  //   syncProduct()
-  // }, [modelView]);
 
   return {
     syncItems,

@@ -3,11 +3,7 @@ import { Context, Notification } from "@/types/context";
 import { useRouter } from "next/navigation";
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
-
-
-
 export const ApiContext = createContext<Context | null>(null);
-
 
  const ContextProvider = ({ children }: { children: ReactNode }) => {
     const router=useRouter()
@@ -16,7 +12,6 @@ export const ApiContext = createContext<Context | null>(null);
 
  const handlePing=(status:boolean)=>{
         setOnline(status)
-        console.log("ping",status)
     }
 
 useEffect(() => {
@@ -37,7 +32,7 @@ useEffect(() => {
 }, [router]);
 
     const clearNotify = () => setNotify({ message: "", type: null });
-    
+
     return (
         <ApiContext.Provider value={{ notify, setNotify, clearNotify,online,handlePing }}>
             {children}

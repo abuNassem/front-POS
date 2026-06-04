@@ -7,7 +7,6 @@ import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
 import {  useRef, useState } from "react"
 
-
 const useCart = (online:boolean) => {
     const [sale, setSale] = useState<Sale>({
         items: [],
@@ -19,13 +18,8 @@ const useCart = (online:boolean) => {
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
 
-
     const querClient = useQueryClient()
 
-
-   
-
-   
     const handleSale = (product: ProductSummary) => {
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
@@ -43,16 +37,12 @@ const useCart = (online:boolean) => {
         }
     }
 
-
-
     const handlePaymentMethod = (paymentMethod: "cash" | "card") => {
         setSale({
             ...sale,
             paymentMethod
         })
     }
-
-
 
     const deleteItem = (idProduct: string) => {
         setSale({
@@ -62,7 +52,6 @@ const useCart = (online:boolean) => {
         })
     }
 
-
     const decrementItem = (idProduct: string) => {
         setSale({
             ...sale,
@@ -71,7 +60,6 @@ const useCart = (online:boolean) => {
         })
     }
 
-
     const deleteAll = () => {
         setSale({
             items: [],
@@ -79,7 +67,6 @@ const useCart = (online:boolean) => {
             paymentMethod: "cash"
         })
     }
-
 
   const updateProductsStock = () => {
     querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
@@ -108,8 +95,6 @@ const useCart = (online:boolean) => {
     });
 };
 
-
-
 const createOnlineSale = async () => {
 
     await createSales(sale);
@@ -121,17 +106,12 @@ const createOnlineSale = async () => {
     setSuccess(true);
 };
 
-
-
 const createOfflineSale = async () => {
 
-    // تخزين الفاتورة محليًا
-    console.log(sale)
     await db.invoices.add({
         ...sale
     });
-console.log("local sale",await db.invoices.toArray())
-    // تحديث المخزون محليًا
+
     await Promise.all(
 
         sale.items.map(async (item) => {
@@ -154,8 +134,6 @@ console.log("local sale",await db.invoices.toArray())
     setSuccess(true);
 };
 
-
-
 const createSale = async () => {
 
     setLoading(true);
@@ -175,7 +153,6 @@ const createSale = async () => {
 
     } catch (error) {
 
-        console.log(error);
 
         setError("Failed to create sale");
 
@@ -184,7 +161,6 @@ const createSale = async () => {
         setLoading(false);
     }
 };
-
 
     return {
         sale,

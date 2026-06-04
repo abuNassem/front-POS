@@ -6,7 +6,6 @@ const createSales = async (sale: Sale) => {
         const res = await apiClient.post("/sales", sale)
         return res.data
     } catch (error) {
-        console.log(error)
         throw error
     }
 }

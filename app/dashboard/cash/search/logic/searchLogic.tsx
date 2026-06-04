@@ -15,7 +15,6 @@ export const useSearch = () => {
             return
         }
 
-        // ملاحظة: الـ setTimeout قد يسبب تراكم للطلبات، يفضل مستقبلاً استخدام Debounce
         setTimeout(async () => {
             const data = await SearchProduct(params)
             setResultSearch(data.data)
@@ -36,6 +35,6 @@ export const useSearch = () => {
         refSearch,
         closeSearch,
         searchValue,
-        setResultSearch // قد تحتاجه لتصفير النتائج يدوياً
+        setResultSearch
     }
 }

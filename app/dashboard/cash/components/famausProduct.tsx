@@ -14,7 +14,7 @@ const ProductCard = dynamic(() => import("../card/productCard"), {
 });
 
 const FamausProduct = ({ addItems, sale }: { addItems: (product: ProductSummary) => void, sale: SaleItem[] }) => {
-  
+
     const {products,loading,error}=useGetProduct()
 
     const productGrid = useMemo(() => {

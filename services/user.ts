@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-// ================= REGISTER =================
 export const registerUser = async (data: {
    name: string;
    phone: string;
@@ -18,8 +16,6 @@ export const registerUser = async (data: {
    return response.data;
 };
 
-
-// ================= LOGIN =================
 export const loginUser = async (data: {
    phone: string;
    password: string;
@@ -34,7 +30,6 @@ export const loginUser = async (data: {
 
    return response.data;
 };
-
 
 export const logoutUser = async () => {
 

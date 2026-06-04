@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import { useMemo } from 'react';
-import { 
-    Box, 
-    Typography, 
-    Chip, 
-    List, 
+import {
+    Box,
+    Typography,
+    Chip,
+    List,
     Paper
 } from '@mui/material';
 import { AlertCircle, Package, ArrowRight } from 'lucide-react';
@@ -19,18 +19,17 @@ interface LowStockAlertsProps {
 
 const LowStockAlerts = ({ products }: LowStockAlertsProps) => {
     React.useEffect(()=>{
-        console.log(products)
     },[])
     const renderedProducts = useMemo(() => {
         return products.map((product) => (
-            <Paper 
-                key={product._id} 
-                elevation={0} 
+            <Paper
+                key={product._id}
+                elevation={0}
                 className="mb-3 border border-gray-100 hover:border-red-200 transition-all rounded-xl overflow-hidden shadow-sm hover:shadow-md"
             >
-                <Link 
-                    href={`/dashboard/Products#${product.barcode}`} 
-                    prefetch={true} 
+                <Link
+                    href={`/dashboard/Products#${product.barcode}`}
+                    prefetch={true}
                     className="no-underline block"
                 >
                     <Box className="p-3 flex gap-3 items-center hover:bg-gray-50 transition-colors cursor-pointer">
@@ -81,10 +80,10 @@ const LowStockAlerts = ({ products }: LowStockAlertsProps) => {
                         منتجات وصلت لحد الطلب
                     </Typography>
                 </Box>
-                <Chip 
-                    label={products.length} 
-                    size="small" 
-                    className="font-bold bg-red-600 text-white" 
+                <Chip
+                    label={products.length}
+                    size="small"
+                    className="font-bold bg-red-600 text-white"
                 />
             </Box>
 

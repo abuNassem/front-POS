@@ -13,16 +13,14 @@ interface SpeechRecognitionResultList {
     readonly length: number;
     item(index: number): SpeechRecognitionResult;
     [index: number]: SpeechRecognitionResult;
-    isFinal?: boolean; // أحياناً يكون متاحاً في بعض المتصفحات
+    isFinal?: boolean;
 }
 
-// 2. تعريف واجهة الحدث
 interface SpeechRecognitionEvent extends Event {
     readonly resultIndex: number;
     readonly results: SpeechRecognitionResultList;
 }
 
-// 3. تعريف الواجهة الرئيسية التي سببت الخطأ
 export interface ISpeechRecognition extends EventTarget {
     lang: string;
     continuous: boolean;

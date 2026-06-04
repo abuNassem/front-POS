@@ -63,9 +63,9 @@ export default function StoreOverview() {
     return (
         <Box>
             <Suspense fallback={<Box className="h-32 bg-gray-100 rounded-xl animate-pulse" />}>
-                <StatsCards data={memoizedStats} /> 
+                <StatsCards data={memoizedStats} />
             </Suspense>
-            
+
             <Box className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8" dir="rtl">
                 <Box className="lg:col-span-2 space-y-8">
                     <Suspense fallback={<Skeleton variant="rectangular" height={400} />}>

@@ -54,16 +54,16 @@ export default function PricingTable() {
     return (
         <Container id="pricing" maxWidth="lg" component="section" className="py-24" dir="rtl">
             <Box className="text-center mb-16">
-                <Typography 
-                    component="h2" 
-                    variant="h3" 
+                <Typography
+                    component="h2"
+                    variant="h3"
                     className="font-black mb-4 text-gray-900"
                     sx={{ fontFamily: 'var(--font-tajawal)' }}
                 >
                     أسعار بسيطة وشفافة
                 </Typography>
-                <Typography 
-                    variant="h6" 
+                <Typography
+                    variant="h6"
                     className="text-gray-500 max-w-2xl mx-auto font-medium"
                     sx={{ fontFamily: 'var(--font-tajawal)' }}
                 >
@@ -74,10 +74,10 @@ export default function PricingTable() {
             <Grid container spacing={4} alignItems="stretch">
                 {tiers.map((tier) => (
                     <Grid key={tier.title} size={{ xs: 12, sm: 6, md: 4 }}>
-                        <Card 
-                            className={`h-full flex flex-col transition-all duration-300 rounded-[2rem] border-2 
-                                ${tier.title === 'الاحترافية' 
-                                    ? 'border-blue-600 shadow-2xl shadow-blue-100 scale-105 relative z-10' 
+                        <Card
+                            className={`h-full flex flex-col transition-all duration-300 rounded-[2rem] border-2
+                                ${tier.title === 'الاحترافية'
+                                    ? 'border-blue-600 shadow-2xl shadow-blue-100 scale-105 relative z-10'
                                     : 'border-gray-100 shadow-sm hover:shadow-md'}`}
                         >
                             {tier.subheader && (
@@ -88,17 +88,17 @@ export default function PricingTable() {
                                     </Typography>
                                 </Box>
                             )}
-                            
+
                             <CardHeader
                                 title={tier.title}
-                                titleTypographyProps={{ 
-                                    align: 'center', 
+                                titleTypographyProps={{
+                                    align: 'center',
                                     className: 'font-black text-2xl pt-4',
-                                    sx: { fontFamily: 'var(--font-tajawal)' } 
+                                    sx: { fontFamily: 'var(--font-tajawal)' }
                                 }}
                                 className={tier.title === 'الاحترافية' ? 'bg-blue-50/50' : 'bg-gray-50/50'}
                             />
-                            
+
                             <CardContent className="flex-grow px-8">
                                 <Box className="flex justify-center items-baseline mb-8">
                                     <Typography variant="h3" className="font-black text-gray-900">
@@ -121,13 +121,13 @@ export default function PricingTable() {
                                     ))}
                                 </ul>
                             </CardContent>
-                            
+
                             <CardActions className="p-8 mt-auto">
                                 <Link href="/auth/login" passHref className="w-full">
-                                    <Button 
-                                        fullWidth 
-                                        variant={tier.buttonVariant as 'outlined' | 'contained'} 
-                                        color="primary" 
+                                    <Button
+                                        fullWidth
+                                        variant={tier.buttonVariant as 'outlined' | 'contained'}
+                                        color="primary"
                                         size="large"
                                         className={`py-4 rounded-2xl font-black shadow-lg transition-transform active:scale-95
                                             ${tier.title === 'الاحترافية' ? 'bg-blue-600 shadow-blue-200' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}`}

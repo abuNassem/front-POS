@@ -8,7 +8,6 @@ import { Product } from '@/types/product';
 import { useProductImage } from '../hooks/rrrr/useProductImage';
 import { useProductSubmit } from '../hooks/rrrr/useProductSubmit';
 
-
 interface Props {
   formData: Product;
   setFormData: React.Dispatch<
@@ -93,14 +92,13 @@ const ProductForm = ({
           className={`
              w-full
              ${isReady?'bg-blue-600':'bg-gray-600 cursor-not-allowed'}
-            
+
             text-white
             py-4
             rounded-2xl
             font-black
             `}
-           
-          
+
         >
           {productId
             ? 'تحديث المنتج'

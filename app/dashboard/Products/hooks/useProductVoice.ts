@@ -9,11 +9,9 @@ export const useProductVoice = (initialFormState: Product,setFormData: React.Dis
     const [tempProduct, setTempProduct] = useState<Product>(initialFormState);
     const recognitionRef = useRef<null |ISpeechRecognition >(null);
 
-
-    
     const extractProductFields = (text: string) => {
         const cleaned = text.toLowerCase();
-        
+
         const nameMatch = cleaned.match(/اسم\s+(.*?)(?=\s+(?:تصنيف|سعر|تكلفة|مخزون|باركود|$))/i);
 
 const priceMatch = cleaned.match(/سعر\s*(\d+)/i);
@@ -34,8 +32,6 @@ const categoryMatch = cleaned.match(/تصنيف\s*([^\s]+)/i);
             category:categoryMatch ?categoryMatch[1] :prev.category,
         }));
     };
-
-
 
     const toggleListening = () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

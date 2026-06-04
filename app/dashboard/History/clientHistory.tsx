@@ -18,7 +18,7 @@ const ClientHistory = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["sales"],
         queryFn: () => getSales(),
-        staleTime: 1000 * 60 * 5, 
+        staleTime: 1000 * 60 * 5,
     });
 
     const handleDelete = useCallback(async (id: string) => {
@@ -36,10 +36,10 @@ const ClientHistory = () => {
 
     const renderedSales = useMemo(() => {
         return data?.map((sale: Sale) => (
-            <InvoiceCard 
-                key={sale._id || Math.random()} 
-                sale={sale} 
-                handleDelete={handleDelete} 
+            <InvoiceCard
+                key={sale._id || Math.random()}
+                sale={sale}
+                handleDelete={handleDelete}
             />
         ));
     }, [data, handleDelete]);
@@ -51,8 +51,6 @@ const ClientHistory = () => {
     return (
                         <Suspense fallback={<Skeleton variant="rectangular" width="100%" height={400} />}>
 
-                            
-                    
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
             {renderedSales}
         </div>

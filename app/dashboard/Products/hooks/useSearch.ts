@@ -11,8 +11,7 @@ export const useSearch = () => {
 
     const handleSearch = async (params: string) => {
         setSearchValue(params)
-        
-        // مسح المؤقت السابق إذا وجد
+
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
         if (!params.trim()) {
@@ -21,7 +20,7 @@ export const useSearch = () => {
         }
 
         setIsSearching(true)
-        // تطبيق Debounce لمدة 400ms
+
         timeoutRef.current = setTimeout(async () => {
             try {
                 const data = await SearchProduct(params)

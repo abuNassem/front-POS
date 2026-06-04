@@ -46,7 +46,6 @@ const SearchComponent = ({
     return (
         <div dir="rtl" className="relative w-full flex flex-col items-center">
 
-            {/* 🔎 Search Box */}
             <div className="relative w-full max-w-[90%]   ">
 
                 <div className="relative flex-1">
@@ -68,13 +67,11 @@ const SearchComponent = ({
                         "
                     />
 
-                    {/* Search Icon */}
                     <Search
                         className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400"
                         size={22}
                     />
 
-                    {/* Clear Button */}
                     {(searchValue || resultSearch) && (
                         <button
                             onClick={closeSearch}
@@ -85,10 +82,7 @@ const SearchComponent = ({
                     )}
                 </div>
 
-                
             </div>
-
-           {/* 📦 Results Dropdown */}
 
 {resultSearch && resultSearch.length > 0 && (
     <div
@@ -106,7 +100,6 @@ const SearchComponent = ({
         "
     >
 
-        {/* 🔴 Close Button */}
         <button
             onClick={closeSearch}
             className="
@@ -126,7 +119,7 @@ const SearchComponent = ({
             {renderedResults}
         </div>
                     </Suspense>
-       
+
     </div>
 )}
         </div>

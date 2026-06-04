@@ -52,8 +52,6 @@ export const useEditSale = (sale: Sale) => {
         }
     }, [products, sale, isOpen, calculateMaxQty]);
 
-
-    // open edit sale
     const handleOpen = () => {
         setMangStock([]);
         setIsOpen(true);
@@ -61,10 +59,7 @@ export const useEditSale = (sale: Sale) => {
 
     const handleClose = () => setIsOpen(false);
 
-
-    // control stock
     const handleMangStock = (idProduct: string, newQuantity: number) => {
-
 
         const originalItem = sale.items.find((item) => item.idProduct === idProduct);
         if (!originalItem) return;
@@ -75,22 +70,16 @@ export const useEditSale = (sale: Sale) => {
             return [...filtered, { idProduct, quantity: difference }];
         });
 
-
     };
 
-
-
-    // change quantity
     const handleItemChange = (index: number, field: keyof SaleItem, value: any) => {
         const updatedItems = [...formData.items];
         let newValue = value;
-
 
         if (field === 'quantity') {
             const max = updatedItems[index].maximumQuantity;
             newValue = Math.min(Math.max(0, Number(value)), max);
 
-            // تحديث سجل فروقات المخزون (الكمية الأصلية - الكمية الجديدة)
             handleMangStock(updatedItems[index].idProduct, newValue);
         }
 
@@ -103,14 +92,8 @@ export const useEditSale = (sale: Sale) => {
 
         setFormData(prev => ({ ...prev, items: updatedItems, total: newTotal }));
 
-
-        // إذا كان التعديل على الكمية، نمنع تجاوز الـ maximumQuantity
-
     };
 
-
-
-    // remove from local
     const removeItem = (index: number, idProduct: string) => {
 
         const updatedItems = formData.items.filter((_, i) => i !== index);
@@ -120,14 +103,11 @@ export const useEditSale = (sale: Sale) => {
 
         const originalItem = sale.items.find((item) => item.idProduct === idProduct);
         if (originalItem) {
-            handleMangStock(idProduct, 0); // عند الحذف، نرجع كامل الكمية للمخزن
+            handleMangStock(idProduct, 0);
 
         }
     }
 
-
-
-    // post update sale
     const handleSave = async () => {
         setLoading(true);
         try {

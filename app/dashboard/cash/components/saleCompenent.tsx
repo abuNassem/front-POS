@@ -59,7 +59,7 @@ const SaleComponent = ({
 
     return (
         <div className="flex flex-col h-full bg-white border-l border-gray-200 shadow-lg w-full max-w-md mx-auto relative rounded-lg overflow-hidden">
-            
+
             <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-800">الفاتورة ({sale.items.length})</h2>
                 <button

@@ -23,17 +23,15 @@ const NotificationBar = () => {
                         </span>
                     )}
                 </div>
-                
-                {/* زر الإغلاق */}
-                <button 
+
+                <button
                     onClick={clearNotify}
                     className="ml-4 text-white/80 hover:text-white text-2xl leading-none"
                 >
                     &times;
                 </button>
             </div>
-            
-            {/* خط تقدم زمني بسيط (ProgressBar) */}
+
             <div className="absolute bottom-0 left-0 h-1 bg-white/30 animate-shrink" onAnimationEnd={clearNotify} />
         </div>
     );

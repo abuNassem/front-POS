@@ -43,8 +43,8 @@ export default function TopProducts({ products }: { products: TopSellingProduct[
 
                     return (
                         <Box key={product._id} className="flex items-start gap-4">
-                            <Typography 
-                                variant="h6" 
+                            <Typography
+                                variant="h6"
                                 className={`font-black italic ${index === 0 ? 'text-yellow-500' : 'text-gray-200'}`}
                                 style={{ minWidth: '32px' }}
                             >
@@ -66,9 +66,9 @@ export default function TopProducts({ products }: { products: TopSellingProduct[
                                     </Box>
                                 </Box>
 
-                                <LinearProgress 
-                                    variant="determinate" 
-                                    value={progressValue} 
+                                <LinearProgress
+                                    variant="determinate"
+                                    value={progressValue}
                                     sx={{
                                         height: 6,
                                         borderRadius: 5,

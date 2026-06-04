@@ -6,7 +6,6 @@ export interface Context{
        handlePing:(status:boolean)=>void
 }
 
-
 export interface Notification {
     message: string;
     type: "success" | "error" | null;

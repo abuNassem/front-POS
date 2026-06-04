@@ -27,7 +27,6 @@ const ActionToolbar = ({
   submitColor = 'bg-red-500 hover:bg-red-600',
 }: ActionToolbarProps) => {
 
-  // لا تظهر إذا لا يوجد عناصر
   if (count === 0) return null;
 
   return (
@@ -49,7 +48,7 @@ const ActionToolbar = ({
           backdrop-blur-md bg-opacity-95
         "
       >
-        {/* اليسار */}
+
         <div className="flex items-center gap-4">
           <span
             className="
@@ -67,10 +66,8 @@ const ActionToolbar = ({
           </p>
         </div>
 
-        {/* اليمين */}
         <div className="flex items-center gap-3">
 
-          {/* إلغاء */}
           <button
             onClick={onClear}
             disabled={isLoading}
@@ -84,7 +81,6 @@ const ActionToolbar = ({
             إلغاء
           </button>
 
-          {/* تنفيذ */}
           <button
             onClick={onSubmit}
             disabled={isLoading}
