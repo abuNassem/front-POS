@@ -23,7 +23,7 @@ const SearchComponent = () => {
         handleSearch(id)
 
     }
-  }, []);
+  }, [handleSearch]);
 
     return (
         <div className="relative w-full md:w-80" dir="rtl">

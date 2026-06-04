@@ -34,9 +34,7 @@ export function useBarcodeScanner({ onResult, fps = 10, qrbox = 250 }: UseBarcod
             (decodedText) => {
                 onResult(decodedText);
             },
-            (errorMessage) => {
-
-            }
+            undefined
         );
         setIsScanning(true);
     };

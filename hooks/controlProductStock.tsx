@@ -1,5 +1,5 @@
 
-import { ProductSummary, Product } from "@/types/product";
+import { ProductSummary } from "@/types/product";
 
 export const isStockExceeded = (requestedQty: number, productData?: ProductSummary): boolean => {
     if (!productData) return false;

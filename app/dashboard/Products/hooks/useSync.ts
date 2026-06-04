@@ -1,16 +1,15 @@
 'use client';
 
-import { getSyncProduct, saveLocal } from '@/services/product';
-import { useEffect, useState } from 'react';
+import { saveLocal } from '@/services/product';
+import { useState } from 'react';
 
 export type SyncItem = {
   _id: string;
   isSync: boolean;
 };
 
-export const useProductSync = (modelView:'normal'|'sync'|'deleteMany') => {
+export const useProductSync = () => {
   const [syncItems, setSyncItems] = useState<SyncItem[]>([]);
-  const [isMax,setIsMax]=useState<boolean>(syncItems.length>10)
 const [syncLoading,setSyncLoading]=useState(false)
 
   const addProductSync = (_id: string) => {
@@ -57,17 +56,14 @@ const submitSync=async()=>{
     await saveLocal(syncItems)
     setSyncLoading(false)
     clearSyncItems()
-  }catch(err){
+  }catch{
     setSyncLoading(false
     )
   }
 
 }
 
-  useEffect(() => {
-    const syncTrue=syncItems.filter(ele=>ele.isSync)
-    setIsMax(syncTrue.length>2)
-  }, [syncItems]);
+  const isMax = syncItems.filter(ele => ele.isSync).length > 2;
 
   return {
     syncItems,

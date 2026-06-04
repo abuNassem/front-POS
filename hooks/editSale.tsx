@@ -72,7 +72,7 @@ export const useEditSale = (sale: Sale) => {
 
     };
 
-    const handleItemChange = (index: number, field: keyof SaleItem, value: any) => {
+    const handleItemChange = (index: number, field: keyof SaleItem, value: string | number) => {
         const updatedItems = [...formData.items];
         let newValue = value;
 

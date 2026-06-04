@@ -9,7 +9,7 @@ interface ExcelReaderResult<T> {
   reset: () => void;
 }
 
-export const useExcelReader = <T = any>(): ExcelReaderResult<T> => {
+export const useExcelReader = <T = unknown>(): ExcelReaderResult<T> => {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +34,7 @@ export const useExcelReader = <T = any>(): ExcelReaderResult<T> => {
           setData(jsonRes);
           setLoading(false);
           resolve(jsonRes);
-        } catch (err) {
+        } catch {
           const msg = "فشل في معالجة ملف Excel، تأكد من صيغة الملف.";
           setError(msg);
           setLoading(false);

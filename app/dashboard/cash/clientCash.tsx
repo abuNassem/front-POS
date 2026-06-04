@@ -2,8 +2,6 @@
 
 import React, { useMemo, Suspense } from "react";
 import dynamic from "next/dynamic";
-import Head from "next/head";
-import { Barcode } from "lucide-react";
 import useCart from "@/hooks/useCart";
 import { useApi } from "@/context";
 
@@ -38,12 +36,6 @@ const ClientCash = () => {
 
     return (
         <>
-            <Head>
-                <title>نظام الكاشير | إدارة المبيعات الذكية</title>
-                <meta name="description" content="واجهة الكاشير الاحترافية لإدارة المبيعات، البحث عن المنتجات، وإتمام المعملات المالية بسرعة وسهولة." />
-                <meta name="robots" content="noindex, nofollow" />
-            </Head>
-
             <div className="p-4">
                 <header className="flex justify-between items-center gap-4">
                         <SearchComponent

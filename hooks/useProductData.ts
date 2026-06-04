@@ -3,7 +3,6 @@
 import { useApi } from "@/context"
 import { db } from "@/localDB";
 import { getPopulated } from "@/services/product";
-import { syncSale } from "@/services/sales";
 import { ProductSummary } from "@/types/product";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

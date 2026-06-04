@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `صفحة تعديل تفاصيل المنتج ${product?.name}. يمكنك تحديث السعر، الصور والوصف.`,
       robots: { index: false, follow: false },
     };
-  } catch (error) {
+  } catch {
     return {
       title: "تعديل المنتج",
     };

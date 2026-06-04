@@ -16,9 +16,14 @@ interface SpeechRecognitionResultList {
     isFinal?: boolean;
 }
 
-interface SpeechRecognitionEvent extends Event {
+export interface SpeechRecognitionEvent extends Event {
     readonly resultIndex: number;
     readonly results: SpeechRecognitionResultList;
+}
+
+export interface SpeechRecognitionErrorEvent extends Event {
+    readonly error: string;
+    readonly message: string;
 }
 
 export interface ISpeechRecognition extends EventTarget {
@@ -31,7 +36,7 @@ export interface ISpeechRecognition extends EventTarget {
     onresult: (event: SpeechRecognitionEvent) => void;
     onstart: () => void;
     onend: () => void;
-    onerror: (event: any) => void;
+    onerror: (event: SpeechRecognitionErrorEvent) => void;
 }
 
 interface SpeechRecognitionConstructor {

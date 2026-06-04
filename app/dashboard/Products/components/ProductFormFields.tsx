@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback } from 'react';
+import Image from 'next/image';
 import { Product } from '@/types/product';
 import {
     Package,
@@ -65,7 +66,7 @@ const ProductFormFields = ({ formData, setFormData, onFileChange }: Props) => {
 
                     {formData.image ? (
                         <div className="relative w-32 h-32 rounded-xl overflow-hidden shadow-md border-4 border-white">
-                            <img src={formData.image} className="object-cover w-full h-full" alt="Preview" />
+                            <Image src={formData.image} fill className="object-cover" alt="Preview" />
                             <button
                                 onClick={removeImage}
                                 className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors shadow-lg"

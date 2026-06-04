@@ -1,11 +1,10 @@
 'use client'
 import { db } from "@/localDB"
-import { SearchProduct } from "@/services/product"
 import { createSales } from "@/services/sales"
-import { ProductSummary, Product } from "@/types/product"
+import { ProductSummary, Product, ProductListResponse } from "@/types/product"
 import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
-import {  useRef, useState } from "react"
+import { useState } from "react"
 
 const useCart = (online:boolean) => {
     const [sale, setSale] = useState<Sale>({
@@ -69,7 +68,7 @@ const useCart = (online:boolean) => {
     }
 
   const updateProductsStock = () => {
-    querClient.setQueriesData({ queryKey: ["products"] }, (old: any) => {
+    querClient.setQueriesData<ProductListResponse>({ queryKey: ["products"] }, (old) => {
 
         if (!old || !old.data) return old;
 
@@ -151,7 +150,7 @@ const createSale = async () => {
             await createOfflineSale();
         }
 
-    } catch (error) {
+    } catch {
 
 
         setError("Failed to create sale");

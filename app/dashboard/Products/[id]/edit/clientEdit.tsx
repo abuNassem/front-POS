@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import ProductForm from "../../components/productForm"
 import { useProductForm } from "../../hooks/form/useProductForm"
 import Link from "next/link"
-import { MoveLeft, MoveRight } from "lucide-react"
+import { MoveRight } from "lucide-react"
 
 const ClientEdit = ({ id }: { id: string }) => {
   const { data, isLoading, error } = useQuery({

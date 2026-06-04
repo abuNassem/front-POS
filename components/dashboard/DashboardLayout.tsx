@@ -121,7 +121,7 @@ export default function DashboardLayout({
                 }, 3000);
             }
 
-        } catch (error) {
+        } catch {
 
 
         } finally {

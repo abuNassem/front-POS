@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Button, Typography, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 

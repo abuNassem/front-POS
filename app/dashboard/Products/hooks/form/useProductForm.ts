@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Product } from '@/types/product';
 
 export const INITIAL_FORM_STATE: Product = {
@@ -21,11 +21,13 @@ export const useProductForm = (
       initialData ?? INITIAL_FORM_STATE
     );
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    }
-  }, [initialData]);
+  const [appliedInitialData, setAppliedInitialData] =
+    useState(initialData);
+
+  if (initialData && initialData !== appliedInitialData) {
+    setAppliedInitialData(initialData);
+    setFormData(initialData);
+  }
 
   const updateField = useCallback(
     (

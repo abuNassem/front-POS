@@ -2,9 +2,10 @@
 
 import React, { useRef } from 'react';
 import { Mic, MicOff, RotateCcw, Wand2 } from 'lucide-react';
+import { ProductVoiceState } from '../hooks/useProductVoice';
 
 interface Props {
-    voiceState: any;
+    voiceState: ProductVoiceState;
 }
 
 const VoiceInputModal = ({ voiceState }: Props) => {

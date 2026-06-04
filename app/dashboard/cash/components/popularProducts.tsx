@@ -1,10 +1,8 @@
 'use client'
 
 import React, { useMemo } from "react";
-import { getPopulated } from "@/services/product";
 import { ProductSummary } from "@/types/product";
 import { SaleItem } from "@/types/sale";
-import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useGetProduct } from "@/hooks/useProductData";
 

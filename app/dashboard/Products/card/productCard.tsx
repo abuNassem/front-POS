@@ -1,6 +1,7 @@
 import { Product } from '@/types/product'
 import { deleteProduct } from '@/services/product'
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ProductCard = ({ product, modelView = 'normal' }:
   {
@@ -15,10 +16,12 @@ const ProductCard = ({ product, modelView = 'normal' }:
 
       <div className="h-48 bg-gray-200 relative overflow-hidden group">
         {product.image ? (
-          <img
+          <Image
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover group-hover:scale-110 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400">

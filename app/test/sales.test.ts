@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createSales, deleteSale, updateSale } from '../../services/sales';
 import apiClient from '../../services/index';
+import { Sale } from '../../types/sale';
+
+interface ApiErrorResponse {
+    response: { status: number; data: { message: string } };
+}
 
 vi.mock('../../services/index', () => ({
     default: {
@@ -18,22 +23,22 @@ describe('Sales Integration Logic (Frontend-to-Backend)', () => {
     });
 
     it('يجب أن ينشئ عملية بيع بنجاح ويرجع كود 201', async () => {
-        const validSale = {
+        const validSale: Sale = {
             items: [{ idProduct: 'p1', quantity: 2, price: 50, name: 'Product 1' }],
             paymentMethod: 'cash',
             total: 100
         };
 
-        (apiClient.post as any).mockResolvedValue({ status: 201, data: { ...validSale, _id: 'sale123' } });
+        vi.mocked(apiClient.post).mockResolvedValue({ status: 201, data: { ...validSale, _id: 'sale123' } });
 
-        const result = await createSales(validSale as any);
+        const result = await createSales(validSale);
 
         expect(apiClient.post).toHaveBeenCalledWith('/sales', validSale);
         expect(result._id).toBe('sale123');
     });
 
     it('يجب أن يرمي خطأ عندما يكون المخزون غير كافٍ (Error 400)', async () => {
-        const outOfStockItem = {
+        const outOfStockItem: Sale = {
             items: [{ idProduct: 'p1', quantity: 1000, price: 50, name: 'Product 1' }],
             paymentMethod: 'cash',
             total: 50000
@@ -46,22 +51,23 @@ describe('Sales Integration Logic (Frontend-to-Backend)', () => {
             }
         };
 
-        (apiClient.post as any).mockRejectedValue(serverError);
+        vi.mocked(apiClient.post).mockRejectedValue(serverError);
 
         try {
-            await createSales(outOfStockItem as any);
-        } catch (error: any) {
-            expect(error.response.status).toBe(400);
-            expect(error.response.data.message).toContain('مخزون غير كافٍ');
+            await createSales(outOfStockItem);
+        } catch (error) {
+            const err = error as ApiErrorResponse;
+            expect(err.response.status).toBe(400);
+            expect(err.response.data.message).toContain('مخزون غير كافٍ');
         }
     });
 
     it('يجب أن يرمي خطأ 404 إذا كان المنتج غير موجود في قاعدة البيانات', async () => {
-        (apiClient.post as any).mockRejectedValue({
+        vi.mocked(apiClient.post).mockRejectedValue({
             response: { status: 404, data: { message: 'المنتج غير موجود' } }
         });
 
-        await expect(createSales({ items: [{ idProduct: 'invalid' }] } as any))
+        await expect(createSales({ items: [{ idProduct: 'invalid' }] } as unknown as Sale))
             .rejects.toMatchObject({ response: { status: 404 } });
     });
 });
@@ -69,7 +75,7 @@ describe('Sales Integration Logic (Frontend-to-Backend)', () => {
 it('يجب أن يحذف عملية بيع ويرجع رسالة نجاح', async () => {
     const saleId = '65d1f2a3e4b0a12345678901';
 
-    (apiClient.delete as any).mockResolvedValue({
+    vi.mocked(apiClient.delete).mockResolvedValue({
         data: { message: 'Sale removed' }
     });
 
@@ -81,31 +87,32 @@ it('يجب أن يحذف عملية بيع ويرجع رسالة نجاح', asyn
 
 it('يجب أن يرسل البيانات المحدثة بشكل صحيح عند التعديل', async () => {
     const saleId = '123';
-    const updatedData = {
+    const updatedData: Sale = {
         items: [{ idProduct: 'p1', quantity: 5, price: 50, name: 'Updated Product' }],
         paymentMethod: 'card',
         total: 250
     };
 
-    (apiClient.put as any).mockResolvedValue({
+    vi.mocked(apiClient.put).mockResolvedValue({
         data: { message: 'Sale updated' }
     });
 
-    const result = await updateSale(saleId, updatedData as any);
+    const result = await updateSale(saleId, updatedData);
 
     expect(apiClient.put).toHaveBeenCalledWith(`/sales/${saleId}`, updatedData);
     expect(result.message).toBe('Sale updated');
 });
 
 it('يجب أن يرمي خطأ 404 عند محاولة حذف فاتورة غير موجودة', async () => {
-    (apiClient.delete as any).mockRejectedValue({
+    vi.mocked(apiClient.delete).mockRejectedValue({
         response: { status: 404, data: { message: 'Sale not found' } }
     });
 
     try {
         await deleteSale('invalid-id');
-    } catch (error: any) {
-        expect(error.response.status).toBe(404);
-        expect(error.response.data.message).toBe('Sale not found');
+    } catch (error) {
+        const err = error as ApiErrorResponse;
+        expect(err.response.status).toBe(404);
+        expect(err.response.data.message).toBe('Sale not found');
     }
 });

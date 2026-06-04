@@ -25,7 +25,7 @@ export const UploadMedia = async (file: File, onProgress?: (percent: number) => 
     );
 
     return res.data.secure_url;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Upload Error:", error);
     return null;
   }

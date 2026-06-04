@@ -17,11 +17,6 @@ const SearchComponent = dynamic(
   { ssr: false }
 );
 
-const AddAndUpdate = dynamic(
-  () => import('./productForm'),
-  { ssr: false }
-);
-
 const ProductCard = dynamic(
   () => import('../card/productCard'),
   {
@@ -53,7 +48,7 @@ const ClientProduct = () => {
     submitSync,
     clearSyncItems,
     syncLoading
-  }=useProductSync(modelView)
+  }=useProductSync()
 
    const {
       toggleMange,
