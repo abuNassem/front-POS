@@ -12,7 +12,6 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, onAdd, sale }: ProductCardProps) => {
     const currentNum = sale.find(ele => ele.idProduct === product._id)?.quantity
-    console.log( !isStockExceeded(currentNum as number, product)|| product.stock>0)
     return (
         <div className="flex w-[250px] h-[80px] flex-col justify-between p-2 bg-white border border-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow">
             <h3 className="text-xs font-semibold text-gray-700 truncate mb-2" title={product.name}>

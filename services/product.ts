@@ -17,11 +17,9 @@ export const getProduct = async (page: number, status: string) => {
 
 
 export const getPopulated = async () => {
-    const res = await apiClient.get<Populated[]>('/product/populated')
+    const res = await apiClient.get<Populated[]>('/product/populated/get')
     if(Array.isArray(res.data)&&res.data.length){
 await db.products.bulkPut(res.data);
-console.log('res',res.data)
-    console.log('localProduct',await db.products.toArray())
     }
 
     return res.data
