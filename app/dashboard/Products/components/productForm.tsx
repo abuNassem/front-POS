@@ -5,8 +5,8 @@ import React from 'react';
 import ProductFormFields from './ProductFormFields';
 
 import { Product } from '@/types/product';
-import { useProductImage } from '../hooks/rrrr/useProductImage';
-import { useProductSubmit } from '../hooks/rrrr/useProductSubmit';
+import { useProductImage } from '../hooks/form/useProductImage';
+import { useProductSubmit } from '../hooks/form/useProductSubmit';
 
 interface Props {
   formData: Product;

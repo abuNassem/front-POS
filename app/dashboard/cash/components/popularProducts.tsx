@@ -6,7 +6,7 @@ import { ProductSummary } from "@/types/product";
 import { SaleItem } from "@/types/sale";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { useGetProduct } from "@/repositryProduct";
+import { useGetProduct } from "@/hooks/useProductData";
 
 const ProductCard = dynamic(() => import("../card/productCard"), {
     ssr: false,

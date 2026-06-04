@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { Box, CircularProgress, Skeleton } from '@mui/material';
 import { DashboardStats, LowStockProduct, TopSellingProduct } from '@/types/overview';
-import { getLowStockProducts, getPublicStats, getTopSelling } from '@/services/overviw';
+import { getLowStockProducts, getPublicStats, getTopSelling } from '@/services/overview';
 
 const StatsCards = dynamic(() => import("../card/stateCards"), {
     ssr: false,

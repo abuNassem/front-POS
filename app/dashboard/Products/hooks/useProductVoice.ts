@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Product } from '@/types/product';
-import { ISpeechRecognition } from '@/types/speechRecognisation';
-import { INITIAL_FORM_STATE } from './rrrr/useProductForm';
+import { ISpeechRecognition } from '@/types/speechRecognition';
+import { INITIAL_FORM_STATE } from './form/useProductForm';
 
 export const useProductVoice = (initialFormState: Product,setFormData: React.Dispatch<React.SetStateAction<Product>>) => {
     const [voiceText, setVoiceText] = useState("");

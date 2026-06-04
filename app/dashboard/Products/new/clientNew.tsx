@@ -2,7 +2,7 @@
 import { useState } from "react"
 import ProductForm from "../components/productForm"
 import VoiceInputModal from "../components/VoiceInputModal"
-import { useProductForm } from "../hooks/rrrr/useProductForm"
+import { useProductForm } from "../hooks/form/useProductForm"
 import { useProductVoice } from "../hooks/useProductVoice"
 import { Mic, MoveLeft, MoveRight } from "lucide-react"
 import Link from "next/link"

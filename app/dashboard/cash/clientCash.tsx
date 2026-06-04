@@ -12,11 +12,11 @@ const SearchComponent = dynamic(() => import("@/app/dashboard/cash/search/search
     ssr: false
 });
 
-const SaleComponent = dynamic(() => import("./components/saleCompenent"), {
+const SaleComponent = dynamic(() => import("./components/saleComponent"), {
     ssr: false
 });
 
-const FamausProduct = dynamic(() => import("./components/famausProduct"), {
+const FamausProduct = dynamic(() => import("./components/popularProducts"), {
     ssr: false
 });
 

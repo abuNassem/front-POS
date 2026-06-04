@@ -2,7 +2,7 @@
 import { getProductById } from "@/services/product"
 import { useQuery } from "@tanstack/react-query"
 import ProductForm from "../../components/productForm"
-import { useProductForm } from "../../hooks/rrrr/useProductForm"
+import { useProductForm } from "../../hooks/form/useProductForm"
 import Link from "next/link"
 import { MoveLeft, MoveRight } from "lucide-react"
 

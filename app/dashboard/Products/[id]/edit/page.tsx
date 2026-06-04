@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import ClientEdit from "./cleintEdit";
+import ClientEdit from "./clientEdit";
 import { getProductById } from "@/services/product";
 
 type Props = {
