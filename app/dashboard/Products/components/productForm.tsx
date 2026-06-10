@@ -5,9 +5,8 @@ import React from 'react';
 import ProductFormFields from './ProductFormFields';
 
 import { Product } from '@/types/product';
-import { useProductImage } from '../hooks/rrrr/useProductImage';
-import { useProductSubmit } from '../hooks/rrrr/useProductSubmit';
-
+import { useProductImage } from '../hooks/form/useProductImage';
+import { useProductSubmit } from '../hooks/form/useProductSubmit';
 
 interface Props {
   formData: Product;
@@ -93,14 +92,13 @@ const ProductForm = ({
           className={`
              w-full
              ${isReady?'bg-blue-600':'bg-gray-600 cursor-not-allowed'}
-            
+
             text-white
             py-4
             rounded-2xl
             font-black
             `}
-           
-          
+
         >
           {productId
             ? 'تحديث المنتج'

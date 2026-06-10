@@ -30,7 +30,11 @@ export const useDeleteManyProducts = ({
       const idsSet = new Set(selectedIds);
 
       setProducts(prev =>
+<<<<<<< HEAD
         prev.filter(item => !idsSet.has(item._id as string))
+=======
+        prev.filter(item => !(item._id && idsSet.has(item._id)))
+>>>>>>> prof
       );
 
       clearSelection();

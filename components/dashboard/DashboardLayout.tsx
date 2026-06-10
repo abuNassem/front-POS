@@ -102,7 +102,6 @@ export default function DashboardLayout({
 
             setNeedSync(localSales);
 
-            console.log("Need Sync", localSales);
 
             if (
                 Array.isArray(localSales) &&
@@ -122,9 +121,8 @@ export default function DashboardLayout({
                 }, 3000);
             }
 
-        } catch (error) {
+        } catch {
 
-            console.log(error);
 
         } finally {
 
@@ -133,8 +131,6 @@ export default function DashboardLayout({
     };
 
     React.useEffect(() => {
-
-       
 
         const name = localStorage.getItem("name");
 

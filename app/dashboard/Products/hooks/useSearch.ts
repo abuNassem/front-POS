@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 import { SearchProduct } from "@/services/product"
 import { Product } from "@/types/product"
 
@@ -9,10 +9,9 @@ export const useSearch = () => {
     const [isSearching, setIsSearching] = useState(false)
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-    const handleSearch = async (params: string) => {
+    const handleSearch = useCallback(async (params: string) => {
         setSearchValue(params)
-        
-        // مسح المؤقت السابق إذا وجد
+
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
         if (!params.trim()) {
@@ -21,7 +20,7 @@ export const useSearch = () => {
         }
 
         setIsSearching(true)
-        // تطبيق Debounce لمدة 400ms
+
         timeoutRef.current = setTimeout(async () => {
             try {
                 const data = await SearchProduct(params)
@@ -30,7 +29,7 @@ export const useSearch = () => {
                 setIsSearching(false)
             }
         }, 400)
-    }
+    }, [])
 
     const closeSearch = () => {
         setResultSearch([])

@@ -1,12 +1,16 @@
 'use client'
 import { db } from "@/localDB"
 import { createSales } from "@/services/sales"
-import { Populated, Product } from "@/types/product"
+import { ProductSummary, Product, ProductListResponse } from "@/types/product"
 import { Sale } from "@/types/sale"
 import { useQueryClient } from "@tanstack/react-query"
+<<<<<<< HEAD
 
 import {   useState } from "react"
 
+=======
+import { useState } from "react"
+>>>>>>> prof
 
 const useCart = (online:boolean) => {
     const [sale, setSale] = useState<Sale>({
@@ -19,11 +23,14 @@ const useCart = (online:boolean) => {
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
 
-
     const querClient = useQueryClient()
 
+<<<<<<< HEAD
 
     const handleSale = (product: Populated) => {
+=======
+    const handleSale = (product: ProductSummary) => {
+>>>>>>> prof
         const existingItem = sale.items.find((item) => item.idProduct === product._id)
         if (existingItem) {
             setSale({
@@ -40,16 +47,12 @@ const useCart = (online:boolean) => {
         }
     }
 
-
-
     const handlePaymentMethod = (paymentMethod: "cash" | "card") => {
         setSale({
             ...sale,
             paymentMethod
         })
     }
-
-
 
     const deleteItem = (idProduct: string) => {
         setSale({
@@ -59,7 +62,6 @@ const useCart = (online:boolean) => {
         })
     }
 
-
     const decrementItem = (idProduct: string) => {
         setSale({
             ...sale,
@@ -67,7 +69,6 @@ const useCart = (online:boolean) => {
             total: Number(sale.total) - Number(sale.items.find((item) => item.idProduct === idProduct)?.price)
         })
     }
-
 
     const deleteAll = () => {
         setSale({
@@ -77,9 +78,12 @@ const useCart = (online:boolean) => {
         })
     }
 
-
   const updateProductsStock = () => {
+<<<<<<< HEAD
     querClient.setQueriesData({ queryKey: ["products"] }, (old: {data:Product[]}) => {
+=======
+    querClient.setQueriesData<ProductListResponse>({ queryKey: ["products"] }, (old) => {
+>>>>>>> prof
 
         if (!old || !old.data) return old;
 
@@ -105,8 +109,6 @@ const useCart = (online:boolean) => {
     });
 };
 
-
-
 const createOnlineSale = async () => {
 
     await createSales(sale);
@@ -118,16 +120,16 @@ const createOnlineSale = async () => {
     setSuccess(true);
 };
 
-
-
 const createOfflineSale = async () => {
 
-    // تخزين الفاتورة محليًا
-    console.log(sale)
     await db.invoices.add({
         ...sale
     });
+<<<<<<< HEAD
     // تحديث المخزون محليًا
+=======
+
+>>>>>>> prof
     await Promise.all(
 
         sale.items.map(async (item) => {
@@ -150,8 +152,6 @@ const createOfflineSale = async () => {
     setSuccess(true);
 };
 
-
-
 const createSale = async () => {
 
     setLoading(true);
@@ -169,9 +169,8 @@ const createSale = async () => {
             await createOfflineSale();
         }
 
-    } catch (error) {
+    } catch {
 
-        console.log(error);
 
         setError("Failed to create sale");
 
@@ -180,7 +179,6 @@ const createSale = async () => {
         setLoading(false);
     }
 };
-
 
     return {
         sale,

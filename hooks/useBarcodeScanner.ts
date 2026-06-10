@@ -25,21 +25,16 @@ export function useBarcodeScanner({ onResult, fps = 10, qrbox = 250 }: UseBarcod
         const scanner = new Html5QrcodeScanner(
             elementId,
             { fps, qrbox },
-      /* verbose= */ false
+       false
         );
 
-        // Assign to ref BEFORE render to ensure we have a handle
-        // Actually, Html5QrcodeScanner constructor returns the instance.
         scannerRef.current = scanner;
 
         scanner.render(
             (decodedText) => {
                 onResult(decodedText);
             },
-            (errorMessage) => {
-                // parse error, ignore it.
-                console.log(errorMessage);
-            }
+            undefined
         );
         setIsScanning(true);
     };

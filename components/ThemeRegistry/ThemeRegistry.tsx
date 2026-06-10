@@ -17,10 +17,10 @@ const theme = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#111827', // Matching Tailwind gray-900
+            main: '#111827',
         },
         secondary: {
-            main: '#f3f4f6', // Matching Tailwind gray-100
+            main: '#f3f4f6',
         },
         background: {
             default: '#ffffff',

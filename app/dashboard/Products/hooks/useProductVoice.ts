@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Product } from '@/types/product';
-import { ISpeechRecognition } from '@/types/speechRecognisation';
-import { INITIAL_FORM_STATE } from './rrrr/useProductForm';
+import { ISpeechRecognition, SpeechRecognitionEvent } from '@/types/speechRecognition';
+import { INITIAL_FORM_STATE } from './form/useProductForm';
 
 export const useProductVoice = (initialFormState: Product,setFormData: React.Dispatch<React.SetStateAction<Product>>) => {
     const [voiceText, setVoiceText] = useState("");
@@ -9,11 +9,9 @@ export const useProductVoice = (initialFormState: Product,setFormData: React.Dis
     const [tempProduct, setTempProduct] = useState<Product>(initialFormState);
     const recognitionRef = useRef<null |ISpeechRecognition >(null);
 
-
-    
     const extractProductFields = (text: string) => {
         const cleaned = text.toLowerCase();
-        
+
         const nameMatch = cleaned.match(/اسم\s+(.*?)(?=\s+(?:تصنيف|سعر|تكلفة|مخزون|باركود|$))/i);
 
 const priceMatch = cleaned.match(/سعر\s*(\d+)/i);
@@ -35,8 +33,6 @@ const categoryMatch = cleaned.match(/تصنيف\s*([^\s]+)/i);
         }));
     };
 
-
-
     const toggleListening = () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) return;
@@ -51,7 +47,7 @@ const categoryMatch = cleaned.match(/تصنيف\s*([^\s]+)/i);
             recognitionRef.current.continuous = true;
             recognitionRef.current.interimResults = true;
 
-            recognitionRef.current.onresult = (event: any) => {
+            recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
                 let currentTranscript = "";
                 for (let i = 0; i < event.results.length; i++) {
                     currentTranscript += event.results[i][0].transcript;
@@ -75,6 +71,8 @@ const categoryMatch = cleaned.match(/تصنيف\s*([^\s]+)/i);
 
     useEffect(()=>{
         setFormData(tempProduct)
-    },[tempProduct])
+    },[tempProduct, setFormData])
     return { voiceText, setVoiceText, isListening, tempProduct, toggleListening, resetVoice, extractProductFields };
 };
+
+export type ProductVoiceState = ReturnType<typeof useProductVoice>;

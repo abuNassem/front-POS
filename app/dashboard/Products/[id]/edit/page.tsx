@@ -1,24 +1,23 @@
 import { Metadata } from "next";
-import ClientEdit from "./cleintEdit";
-import { getProductById } from "@/services/product"; // افترضت وجود الدالة هنا لجلب البيانات للسيو
+import ClientEdit from "./clientEdit";
+import { getProductById } from "@/services/product";
 
 type Props = {
   params: { id: string };
 };
 
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  
+
   try {
     const product = await getProductById(id);
-    
+
     return {
       title: `تعديل: ${product?.name || "المنتج"} | لوحة التحكم`,
       description: `صفحة تعديل تفاصيل المنتج ${product?.name}. يمكنك تحديث السعر، الصور والوصف.`,
-      robots: { index: false, follow: false }, 
+      robots: { index: false, follow: false },
     };
-  } catch (error) {
+  } catch {
     return {
       title: "تعديل المنتج",
     };

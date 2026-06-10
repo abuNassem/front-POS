@@ -20,7 +20,6 @@ export const useProductSubmit = () => {
     setIsSubmitting] =
     useState(false);
 
-
   const saveProduct =
     async (
       productData: Product,

@@ -10,7 +10,7 @@ interface StatsCardsProps {
 }
 
 export default function StatsCards({ data }: StatsCardsProps) {
-    // مصفوفة الإعدادات لسهولة العرض
+
     const cards = [
         {
             title: 'إجمالي المبيعات',

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { Sale } from "@/types/sale";
-import { Trash2, XCircle, Banknote, CreditCard, AlertCircle, Loader2 } from "lucide-react";
+import { Trash2, XCircle, Banknote, CreditCard, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 
 interface SaleComponentProps {
     sale: Sale;
@@ -59,7 +59,7 @@ const SaleComponent = ({
 
     return (
         <div className="flex flex-col h-full bg-white border-l border-gray-200 shadow-lg w-full max-w-md mx-auto relative rounded-lg overflow-hidden">
-            
+
             <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-800">الفاتورة ({sale.items.length})</h2>
                 <button
@@ -74,6 +74,13 @@ const SaleComponent = ({
                 <div className="mx-4 mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-start gap-2 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="shrink-0 mt-0.5" size={18} />
                     <div className="text-xs font-bold leading-relaxed">{error}</div>
+                </div>
+            )}
+
+            {success && (
+                <div className="mx-4 mt-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start gap-2 animate-in fade-in slide-in-from-top-1">
+                    <CheckCircle2 className="shrink-0 mt-0.5" size={18} />
+                    <div className="text-xs font-bold leading-relaxed">تمت العملية بنجاح</div>
                 </div>
             )}
 

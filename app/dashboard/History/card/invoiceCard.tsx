@@ -5,7 +5,6 @@ import EditSaleDrawer from '../components/updateSales';
 
 const InvoiceCard = ({sale,handleDelete}:{sale:Sale,handleDelete:(id:string)=>void}) => {
 
-
      const formatDate = (dateString: string | null) => {
         if (!dateString) return { date: 'N/A', time: '' };
         const d = new Date(dateString);
@@ -15,12 +14,11 @@ const InvoiceCard = ({sale,handleDelete}:{sale:Sale,handleDelete:(id:string)=>vo
         };
     };
 
-
        const { date, time } = formatDate(String(sale.createdAt ?? null));
 
   return (
     <div key={sale._id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all relative overflow-hidden group">
-                        {/* الزينة الجانبية بناءً على نوع الدفع */}
+
                         <div className={`absolute left-0 top-0 bottom-0 w-1 ${sale.paymentMethod === 'card' ? 'bg-blue-500' : 'bg-green-500'}`} />
 
                         <div className="flex justify-between items-start mb-4">
@@ -44,15 +42,15 @@ const InvoiceCard = ({sale,handleDelete}:{sale:Sale,handleDelete:(id:string)=>vo
                             <div className="flex items-center gap-2">
                                 {sale.paymentMethod === 'card' ? (
                                     <Chip
-                                        icon={<CreditCard size={14} className="text-blue-700" />} 
-                                        label="بطاقة" 
+                                        icon={<CreditCard size={14} className="text-blue-700" />}
+                                        label="بطاقة"
                                         size="small"
                                         className="bg-blue-50 text-blue-700 font-bold border border-blue-100"
                                     />
                                 ) : (
-                                    <Chip 
-                                        icon={<Banknote size={14} className="text-green-700" />} 
-                                        label="نقدي" 
+                                    <Chip
+                                        icon={<Banknote size={14} className="text-green-700" />}
+                                        label="نقدي"
                                         size="small"
                                         className="bg-green-50 text-green-700 font-bold border border-green-100"
                                     />

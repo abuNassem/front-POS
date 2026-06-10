@@ -1,18 +1,21 @@
 'use client';
 
 import { saveLocal } from '@/services/product';
+<<<<<<< HEAD
 import {  useState } from 'react';
+=======
+import { useState } from 'react';
+>>>>>>> prof
 
 export type SyncItem = {
   _id: string;
   isSync: boolean;
 };
 
-export const useProductSync = (modelView:'normal'|'sync'|'deleteMany') => {
+export const useProductSync = () => {
   const [syncItems, setSyncItems] = useState<SyncItem[]>([]);
-  const [isMax,setIsMax]=useState<boolean>(syncItems.length>10)
 const [syncLoading,setSyncLoading]=useState(false)
-  
+
   const addProductSync = (_id: string) => {
     const exist=syncItems.find(ele=>ele._id==_id)
     if(exist){
@@ -28,8 +31,6 @@ const [syncLoading,setSyncLoading]=useState(false)
     }
   };
 
-
-
   const removeProductSync = (_id: string) => {
     const exist=syncItems.find(ele=>ele._id==_id)
     if(exist){
@@ -44,11 +45,7 @@ const [syncLoading,setSyncLoading]=useState(false)
 
     }
   };
-  
-  
-  /*
-    تنظيف الكل بعد الإرسال
-  */
+
   const clearSyncItems = () => {
     setSyncItems([]);
   };
@@ -63,12 +60,20 @@ const submitSync=async()=>{
     await saveLocal(syncItems)
     setSyncLoading(false)
     clearSyncItems()
-  }catch(err){
+  }catch{
     setSyncLoading(false
     )
+<<<<<<< HEAD
   }}
    
 
+=======
+  }
+
+}
+
+  const isMax = syncItems.filter(ele => ele.isSync).length > 2;
+>>>>>>> prof
 
   return {
     syncItems,

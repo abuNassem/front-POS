@@ -1,8 +1,15 @@
+import type { Metadata } from 'next';
 import * as React from 'react';
 import { Box, Container, Typography, Paper } from '@mui/material';
 import Link from 'next/link';
 import { UserPlus } from 'lucide-react';
 import RegisterForm from './clientRegister';
+
+export const metadata: Metadata = {
+    title: 'إنشاء حساب جديد',
+    description: 'أنشئ حسابك المجاني في نظام نقاط البيع السحابي وابدأ إدارة مبيعاتك ومخزونك وفواتيرك خلال دقائق، مع تحليلات فورية ودعم الباركود لمتجرك.',
+    alternates: { canonical: '/auth/register' },
+};
 
 export default function RegisterPage() {
     return (
@@ -21,13 +28,12 @@ export default function RegisterPage() {
                         </Typography>
                     </Box>
 
-                    {/* استدعاء المكون التفاعلي المنفصل */}
                     <RegisterForm />
 
                     <Box className="mt-8 pt-6 border-t border-gray-100 text-center">
                         <Typography variant="body2" className="text-gray-600">
                             لديك حساب بالفعل؟{' '}
-                            <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+                            <Link href="/auth/login" className="text-blue-600 font-semibold hover:underline">
                                 تسجيل الدخول
                             </Link>
                         </Typography>

@@ -32,15 +32,15 @@ export default function Header() {
 
     return (
         <>
-            <AppBar 
-                position="sticky" 
-                color="inherit" 
-                elevation={0} 
+            <AppBar
+                position="sticky"
+                color="inherit"
+                elevation={0}
                 className="border-b border-gray-100 backdrop-blur-md bg-white/90 z-50"
             >
                 <Container maxWidth="lg">
                     <Toolbar disableGutters className="justify-between">
-                        {/* Logo & Brand */}
+
                         <Link href="/" className="flex items-center gap-2 no-underline text-inherit hover:opacity-80 transition-opacity">
                             <div className="bg-blue-600 p-1.5 rounded-lg shadow-lg shadow-blue-200">
                                 <Store className="text-white" size={24} />
@@ -54,7 +54,6 @@ export default function Header() {
                             </Typography>
                         </Link>
 
-                        {/* Desktop Navigation */}
                         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
                             {navItems.map((item) => (
                                 <Button
@@ -81,7 +80,6 @@ export default function Header() {
                             </Button>
                         </Box>
 
-                        {/* Mobile Toggle Button */}
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -95,7 +93,6 @@ export default function Header() {
                 </Container>
             </AppBar>
 
-            {/* Mobile Navigation Drawer */}
             <Drawer
                 anchor="right"
                 open={mobileOpen}
@@ -112,14 +109,14 @@ export default function Header() {
                 <List>
                     {navItems.map((item) => (
                         <ListItem key={item.href} disablePadding>
-                            <ListItemButton 
-                                component={Link} 
-                                href={item.href} 
+                            <ListItemButton
+                                component={Link}
+                                href={item.href}
                                 onClick={handleDrawerToggle}
                                 className="rounded-xl mb-1"
                             >
-                                <ListItemText 
-                                    primary={item.label} 
+                                <ListItemText
+                                    primary={item.label}
                                     primaryTypographyProps={{ className: "font-bold text-gray-700 text-right" }}
                                 />
                             </ListItemButton>

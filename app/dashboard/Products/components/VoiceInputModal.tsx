@@ -2,9 +2,10 @@
 
 import React, { useRef } from 'react';
 import { Mic, MicOff, RotateCcw, Wand2 } from 'lucide-react';
+import { ProductVoiceState } from '../hooks/useProductVoice';
 
 interface Props {
-    voiceState: any;
+    voiceState: ProductVoiceState;
 }
 
 const VoiceInputModal = ({ voiceState }: Props) => {
@@ -20,13 +21,13 @@ const VoiceInputModal = ({ voiceState }: Props) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     return (
-        // أزلنا bg-black ليتناسق مع تصميم المودال الأبيض، وجعلنا الـ padding مرن
+
         <div className="flex items-center justify-center p-0 lg:p-4 w-full">
             <div
                 className="w-full max-w-3xl p-2 sm:p-4 lg:p-8"
                 dir="rtl"
             >
-                {/* العنوان - تم تصغير الفراغات والنصوص في الموبايل */}
+
                 <div className="flex items-center gap-2 lg:gap-3 mb-3 lg:mb-6">
                     <div className="p-2 lg:p-3 bg-blue-600 rounded-xl lg:rounded-2xl text-white shrink-0">
                         <Wand2 className="w-5 h-5 lg:w-6 lg:h-6" />
@@ -42,7 +43,6 @@ const VoiceInputModal = ({ voiceState }: Props) => {
                     </div>
                 </div>
 
-                {/* حقل النص - تم تعديل الارتفاع ليصبح ديناميكياً وصغيراً في الموبايل (h-28) */}
                 <div className="relative">
                     <textarea
                         ref={textareaRef}
@@ -64,7 +64,6 @@ const VoiceInputModal = ({ voiceState }: Props) => {
                     )}
                 </div>
 
-                {/* الأزرار - أصبحت أقل طولاً في الموبايل لتوفير مساحة */}
                 <div className="grid grid-cols-2 gap-3 mt-3 lg:mt-6">
                     <button
                         onClick={toggleListening}
@@ -97,13 +96,11 @@ const VoiceInputModal = ({ voiceState }: Props) => {
                     </button>
                 </div>
 
-                {/* قسم التعليمات - مدمج ومناسب جداً للموبايل ويوفر مساحة رأسية ضخمة */}
                 <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-3 mt-3 lg:mt-4 text-xs lg:text-sm">
                     <h4 className="font-bold text-blue-800 mb-1">
                         الكلمات المفتاحية المساعدة:
                     </h4>
-                    
-                    {/* في الموبايل تظهر الكلمات بجانب بعضها لتوفر السكرول، وفي الشاشات الكبيرة تظهر كقائمة */}
+
                     <div className="flex flex-wrap gap-x-3 gap-y-1 text-blue-700 font-medium lg:hidden">
                         <span>• اسم</span>
                         <span>• سعر</span>
@@ -114,7 +111,6 @@ const VoiceInputModal = ({ voiceState }: Props) => {
 
                     </div>
 
-                    {/* القائمة العادية تظهر فقط في الشاشات الكبيرة */}
                     <ul className="hidden lg:block text-blue-700 space-y-1 mt-1">
                         <li>• استخدم كلمة <strong>اسم</strong> ثم اسم المنتج.</li>
                         <li>• استخدم كلمة <strong>سعر</strong> ثم سعر البيع.</li>

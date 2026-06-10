@@ -3,7 +3,9 @@
 import React, { useMemo } from 'react';
 import { Box, Typography, Paper, LinearProgress } from '@mui/material';
 import { Crown, TrendingUp } from 'lucide-react';
+import { TopSellingProduct } from '@/types/overview';
 
+<<<<<<< HEAD
 export interface TopProduct {
     name: string;
     totalSales: number;
@@ -12,11 +14,13 @@ export interface TopProduct {
 
 export default function TopProducts({ products }: { products: TopProduct[] }) {
     // حساب القيمة العظمى للمقارنة في أشرطة التقدم
+=======
+export default function TopProducts({ products }: { products: TopSellingProduct[] }) {
+>>>>>>> prof
     const maxSales = useMemo(() => {
         return products.length > 0 ? Math.max(...products.map(p => p.totalSales)) : 1;
     }, [products]);
 
-    // عرض قائمة فارغة في حال عدم وجود بيانات
     if (!products || products.length === 0) {
         return (
             <Paper className="p-6 rounded-2xl border border-gray-100 shadow-sm bg-white h-full flex items-center justify-center">
@@ -27,7 +31,6 @@ export default function TopProducts({ products }: { products: TopProduct[] }) {
 
     return (
         <Paper className="p-6 rounded-2xl border border-gray-100 shadow-sm bg-white h-full">
-            {/* Header */}
             <Box className="flex items-center justify-between mb-8" dir="rtl">
                 <Box className="flex items-center gap-2">
                     <Box className="p-2 bg-yellow-50 rounded-lg">
@@ -45,16 +48,21 @@ export default function TopProducts({ products }: { products: TopProduct[] }) {
                 <TrendingUp size={20} className="text-gray-300" />
             </Box>
 
-            {/* List */}
             <Box className="space-y-6" dir="rtl">
                 {products.map((product, index) => {
                     const progressValue = (product.totalSales / maxSales) * 100;
-                    
+
                     return (
+<<<<<<< HEAD
                         <Box key={index} className="flex items-start gap-4">
                             {/* رقم الترتيب */}
                             <Typography 
                                 variant="h6" 
+=======
+                        <Box key={product._id} className="flex items-start gap-4">
+                            <Typography
+                                variant="h6"
+>>>>>>> prof
                                 className={`font-black italic ${index === 0 ? 'text-yellow-500' : 'text-gray-200'}`}
                                 style={{ minWidth: '32px' }}
                             >
@@ -62,7 +70,6 @@ export default function TopProducts({ products }: { products: TopProduct[] }) {
                             </Typography>
 
                             <Box className="flex-grow">
-                                {/* معلومات المنتج والعدد */}
                                 <Box className="flex justify-between items-end mb-1.5">
                                     <Typography variant="body2" className="font-bold text-gray-800">
                                         {product.name}
@@ -77,10 +84,9 @@ export default function TopProducts({ products }: { products: TopProduct[] }) {
                                     </Box>
                                 </Box>
 
-                                {/* شريط التقدم */}
-                                <LinearProgress 
-                                    variant="determinate" 
-                                    value={progressValue} 
+                                <LinearProgress
+                                    variant="determinate"
+                                    value={progressValue}
                                     sx={{
                                         height: 6,
                                         borderRadius: 5,

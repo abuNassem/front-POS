@@ -2,10 +2,14 @@ import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import { setupServer } from 'msw/node'
 import { http, HttpResponse } from 'msw'
 import { getProduct, addProduct, updateProduct, deleteProduct } from '../../services/product'
+import { Product } from '@/types/product'
 
 const server = setupServer(
   http.get('*/product', () => {
-    return HttpResponse.json([{ _id: '1', name: 'Product 1' }])
+    return HttpResponse.json({
+      data: [{ _id: '1', name: 'Product 1', price: 10, costPrice: 5, stock: 3 }],
+      hasMore: false,
+    })
   }),
   http.post('*/product', async ({ request }) => {
     const newProduct = await request.json()
@@ -27,22 +31,22 @@ afterAll(() => server.close())
 describe('Product Service', () => {
 
   it('يجب أن يجلب قائمة المنتجات بنجاح', async () => {
-    const response = await getProduct()
-    expect(response.status).toBe(200)
+    const response = await getProduct(1, 'all')
     expect(response.data).toBeInstanceOf(Array)
     expect(response.data[0].name).toBe('Product 1')
+    expect(response.hasMore).toBe(false)
   })
 
   it('يجب أن يضيف منتجاً جديداً', async () => {
-    const mockProduct = { _id: '2', name: 'New Product', price: 100 }
-    const response = await addProduct(mockProduct as any)
-    expect(response.status).toBe(400)
+    const mockProduct: Product = { _id: '2', name: 'New Product', price: 100, costPrice: 50, stock: 1 }
+    const response = await addProduct(mockProduct)
+    expect(response.status).toBe(201)
     expect(response.data.name).toBe('New Product')
   })
 
   it('يجب أن يحدّث بيانات المنتج', async () => {
-    const updatedData = { _id: '1', name: 'Updated Name' }
-    const response = await updateProduct(updatedData as any)
+    const updatedData: Product = { _id: '1', name: 'Updated Name', price: 100, costPrice: 50, stock: 1 }
+    const response = await updateProduct(updatedData)
     expect(response.status).toBe(200)
     expect(response.data.name).toBe('Updated Name')
   })

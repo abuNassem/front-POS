@@ -11,26 +11,26 @@ const SearchComponent = dynamic(() => import("@/app/dashboard/cash/search/search
     ssr: false
 });
 
-const SaleComponent = dynamic(() => import("./components/saleCompenent"), {
+const SaleComponent = dynamic(() => import("./components/saleComponent"), {
     ssr: false
 });
 
-const FamausProduct = dynamic(() => import("./components/famausProduct"), {
+const FamausProduct = dynamic(() => import("./components/popularProducts"), {
     ssr: false
 });
 
 const ClientCash = () => {
     const {online}=useApi()
-    const { 
-        sale, 
-        deleteAll, 
-        deleteItem, 
-        handleSale, 
-        handlePaymentMethod, 
-        createSale, 
-        error, 
-        loading, 
-        success 
+    const {
+        sale,
+        deleteAll,
+        deleteItem,
+        handleSale,
+        handlePaymentMethod,
+        createSale,
+        error,
+        loading,
+        success
     } = useCart(online);
 
     const memoizedSaleItems = useMemo(() => sale.items, [sale.items]);
@@ -43,36 +43,36 @@ const ClientCash = () => {
                 <meta name="description" content="واجهة الكاشير الاحترافية لإدارة المبيعات، البحث عن المنتجات، وإتمام المعملات المالية بسرعة وسهولة." />
                 <meta name="robots" content="noindex, nofollow" /> 
             </Head>
+
             <div className="p-4">
                 <header className="flex justify-between items-center gap-4">
                         <SearchComponent
                             addToCart={handleSale}
                             sale={memoizedSaleItems}
                         />
-                    
-                   
+
                 </header>
                 <main className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
                     <section className="lg:col-span-2">
                         <Suspense fallback={<div className="h-64 bg-gray-50 animate-pulse" />}>
-                            <FamausProduct 
-                                sale={memoizedSaleItems} 
-                                addItems={handleSale} 
+                            <FamausProduct
+                                sale={memoizedSaleItems}
+                                addItems={handleSale}
                             />
                         </Suspense>
                     </section>
 
                     <aside className="lg:col-span-1">
                         <Suspense fallback={<div className="h-96 bg-gray-50 animate-pulse" />}>
-                            <SaleComponent 
-                                error={error} 
-                                loading={loading} 
-                                success={success} 
-                                createSale={createSale} 
-                                sale={sale} 
-                                deleteItem={deleteItem} 
-                                deleteAll={deleteAll} 
-                                handlePaymentMethod={handlePaymentMethod} 
+                            <SaleComponent
+                                error={error}
+                                loading={loading}
+                                success={success}
+                                createSale={createSale}
+                                sale={sale}
+                                deleteItem={deleteItem}
+                                deleteAll={deleteAll}
+                                handlePaymentMethod={handlePaymentMethod}
                             />
                         </Suspense>
                     </aside>

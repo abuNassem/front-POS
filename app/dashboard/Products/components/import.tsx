@@ -34,8 +34,7 @@ const ExcelImportComponent: React.FC = () => {
   return (
     <div className="p-6 border rounded-xl shadow-md bg-white max-w-2xl mx-auto">
       <h3 className="mb-6 text-xl font-bold text-gray-800 border-b pb-2">استيراد المنتجات بالجملة</h3>
-      
-      {/* قسم اختيار النمط */}
+
       <div className="flex items-center gap-4 mb-6 p-3 bg-gray-50 rounded-lg">
         <span className="text-sm font-medium text-gray-700">نمط المعالجة:</span>
         <div className="flex border rounded-md overflow-hidden">
@@ -72,7 +71,7 @@ const ExcelImportComponent: React.FC = () => {
         <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
           <div className="flex justify-between items-center">
             <p className="text-green-700 font-bold">✅ جاهز لرفع {data.length} سجل بنمط ({importMode})</p>
-            <button 
+            <button
               onClick={handleFinalUpload}
               className="bg-green-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors"
             >

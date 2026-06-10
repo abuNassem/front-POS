@@ -13,9 +13,7 @@ export const ApiInterceptorBridge = () => {
       const interceptor =
          apiClient.interceptors.response.use(
 
-            // SUCCESS
             (response) => {
-    console.log("INTERCEPTOR MOUNTED SUCCESS");
 
                handlePing(true);
 
@@ -36,14 +34,10 @@ export const ApiInterceptorBridge = () => {
                return response;
             },
 
-            // ERROR
             (error) => {
-    console.log("INTERCEPTOR MOUNTED FAIL");
                   handlePing(false);
 
-               // Network Error
                if (!error.response) {
-
 
                   setNotify({
                      message: "فشل الاتصال بالسيرفر",
@@ -53,7 +47,6 @@ export const ApiInterceptorBridge = () => {
                   return Promise.reject(error);
                }
 
-               // Server Error
                const message =
                   error.response.data?.message ||
                   "حدث خطأ";

@@ -10,20 +10,20 @@ import { Sale } from "@/types/sale";
 
 const EditSaleDrawer = ({ sale }: { sale: Sale }) => {
     const queryClient = useQueryClient();
-    const { 
-        isOpen, 
-        formData, 
-        loading, 
-        setIsOpen, 
-        handleOpen, 
-        confirmDeleteSale, 
-        setConfirmDeleteSale, 
-        setFormData, 
-        handleClose, 
-        handleItemChange, 
-        handleMangStock, 
-        removeItem, 
-        handleSave 
+    const {
+        isOpen,
+        formData,
+        loading,
+        setIsOpen,
+        handleOpen,
+        confirmDeleteSale,
+        setConfirmDeleteSale,
+        setFormData,
+        handleClose,
+        handleItemChange,
+        handleMangStock,
+        removeItem,
+        handleSave
     } = useEditSale(sale);
 
     const confirmDelete = useCallback(() => {
@@ -39,8 +39,8 @@ const EditSaleDrawer = ({ sale }: { sale: Sale }) => {
     const renderedItems = useMemo(() => {
         return formData.items.map((item, index) => (
             <div key={`${item.idProduct}-${index}`} className="p-4 border rounded-xl bg-gray-50/50 relative group">
-                <ConfirmCard 
-                    message="هذا التغيير سوف يؤثر على المخزون" 
+                <ConfirmCard
+                    message="هذا التغيير سوف يؤثر على المخزون"
                     onConfirm={() => removeItem(index, item.idProduct)}
                 >
                     <button className="text-gray-400 hover:text-red-500 transition-colors">
@@ -63,9 +63,9 @@ const EditSaleDrawer = ({ sale }: { sale: Sale }) => {
                                 type="number"
                                 value={item.quantity}
                                 min={1}
-                                onChange={(e) => { 
+                                onChange={(e) => {
                                     const val = parseInt(e.target.value) || 0;
-                                    handleItemChange(index, 'quantity', val); 
+                                    handleItemChange(index, 'quantity', val);
                                     handleMangStock(item.idProduct, val);
                                 }}
                                 className="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none"
@@ -122,12 +122,12 @@ const EditSaleDrawer = ({ sale }: { sale: Sale }) => {
                                     <CreditCard size={18} /> شبكة
                                 </button>
                             </div>
-                            
-                            <ConfirmCard 
-                                message="هذا التغيير سوف يحذف الفاتورة بالكامل" 
-                                open={confirmDeleteSale} 
-                                onConfirm={confirmDelete} 
-                                onCancel={() => setConfirmDeleteSale(false)} 
+
+                            <ConfirmCard
+                                message="هذا التغيير سوف يحذف الفاتورة بالكامل"
+                                open={confirmDeleteSale}
+                                onConfirm={confirmDelete}
+                                onCancel={() => setConfirmDeleteSale(false)}
                             />
 
                             <div className="space-y-4">

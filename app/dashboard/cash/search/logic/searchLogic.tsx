@@ -1,10 +1,10 @@
 'use client'
 import { useState, useRef } from "react"
 import { SearchProduct } from "@/services/product"
-import { Populated } from "@/types/product"
+import { ProductSummary } from "@/types/product"
 
 export const useSearch = () => {
-    const [resultSearch, setResultSearch] = useState<Populated[]>([])
+    const [resultSearch, setResultSearch] = useState<ProductSummary[]>([])
     const [searchValue, setSearchValue] = useState("")
     const refSearch = useRef<HTMLInputElement | null>(null)
 
@@ -15,7 +15,6 @@ export const useSearch = () => {
             return
         }
 
-        // ملاحظة: الـ setTimeout قد يسبب تراكم للطلبات، يفضل مستقبلاً استخدام Debounce
         setTimeout(async () => {
             const data = await SearchProduct(params)
             setResultSearch(data.data)
@@ -36,6 +35,6 @@ export const useSearch = () => {
         refSearch,
         closeSearch,
         searchValue,
-        setResultSearch // قد تحتاجه لتصفير النتائج يدوياً
+        setResultSearch
     }
 }

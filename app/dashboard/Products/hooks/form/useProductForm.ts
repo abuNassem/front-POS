@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Product } from '@/types/product';
 
 export const INITIAL_FORM_STATE: Product = {
@@ -21,6 +21,7 @@ export const useProductForm = (
       initialData ?? INITIAL_FORM_STATE
     );
 
+<<<<<<< HEAD:app/dashboard/Products/hooks/rrrr/useProductForm.ts
   useEffect(() => {
     if (initialData) {
       const handleState=()=>{
@@ -30,6 +31,15 @@ export const useProductForm = (
       handleState()
     }
   }, [initialData]);
+=======
+  const [appliedInitialData, setAppliedInitialData] =
+    useState(initialData);
+
+  if (initialData && initialData !== appliedInitialData) {
+    setAppliedInitialData(initialData);
+    setFormData(initialData);
+  }
+>>>>>>> prof:app/dashboard/Products/hooks/form/useProductForm.ts
 
   const updateField = useCallback(
     (

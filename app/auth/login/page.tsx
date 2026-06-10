@@ -1,8 +1,15 @@
+import type { Metadata } from 'next';
 import * as React from 'react';
 import { Box, Container, Typography, Paper } from '@mui/material';
 import Link from 'next/link';
 import { Store } from 'lucide-react';
 import LoginForm from './clientLogin';
+
+export const metadata: Metadata = {
+    title: 'تسجيل الدخول',
+    description: 'سجّل الدخول إلى حساب نظام نقاط البيع الخاص بك لإدارة المبيعات والمخزون والفواتير ومتابعة تقاريرك من لوحة تحكم واحدة بسهولة وأمان.',
+    alternates: { canonical: '/auth/login' },
+};
 
 export default function LoginPage() {
     return (
@@ -21,7 +28,6 @@ export default function LoginPage() {
                         </Typography>
                     </Box>
 
-                    {/* المكون التفاعلي المفصول */}
                     <LoginForm />
 
                     <Box className="mt-8 pt-6 border-t border-gray-100 text-center">

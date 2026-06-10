@@ -29,13 +29,13 @@ const BulkActionToolbar = ({ selectedCount, onDelete, onClear, isLoading }: Bulk
                     >
                         إلغاء
                     </button>
-                    
+
                     <button
                         onClick={onDelete}
                         disabled={isLoading}
                         className={`flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all ${
-                            isLoading 
-                            ? "bg-gray-700 cursor-not-allowed" 
+                            isLoading
+                            ? "bg-gray-700 cursor-not-allowed"
                             : "bg-red-500 hover:bg-red-600 active:scale-95"
                         }`}
                     >

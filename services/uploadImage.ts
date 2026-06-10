@@ -8,26 +8,24 @@ export const UploadMedia = async (file: File, onProgress?: (percent: number) => 
     form.append("cloud_name", "dxy6diqla");
 
     const res = await axios.post(
-      'https://api.cloudinary.com/v1_1/dxy6diqla/auto/upload', 
+      'https://api.cloudinary.com/v1_1/dxy6diqla/auto/upload',
       form,
       {
-        // هنا يكمن السر: Axios يوفر هذه الدالة لمراقبة البيانات المرسلة
+
         onUploadProgress: (progressEvent) => {
-          // حساب النسبة المئوية
-          const total = progressEvent.total || 1; // إجمالي حجم الملف
-          const current = progressEvent.loaded; // ما تم رفعه حتى الآن
+
+          const total = progressEvent.total || 1;
+          const current = progressEvent.loaded;
           const percentCompleted = Math.round((current * 100) / total);
-          
-          // إرسال النسبة إلى دالة الـ callback لتحديث الـ UI
+
           if (onProgress) onProgress(percentCompleted);
-          
-          console.log(`تم رفع: ${percentCompleted}%`);
+
         }
       }
     );
 
-    return res.data.secure_url; 
-  } catch (error: any) {
+    return res.data.secure_url;
+  } catch (error) {
     console.error("Upload Error:", error);
     return null;
   }
