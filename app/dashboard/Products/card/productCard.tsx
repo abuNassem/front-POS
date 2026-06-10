@@ -5,13 +5,9 @@ import Image from 'next/image';
 
 const ProductCard = ({ product, modelView = 'normal' }:
   {
-<<<<<<< HEAD
-   product: Product  
-   modelView:'normal'|'deleteMany'|'sync'
-=======
+
     product: Product;
     modelView?: 'normal' | 'deleteMany' | 'sync'
->>>>>>> prof
   }) => {
   return (
     <div
@@ -24,16 +20,12 @@ const ProductCard = ({ product, modelView = 'normal' }:
           <Image
             src={product.image}
             alt={product.name}
-<<<<<<< HEAD
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-           />
-          
-=======
+
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover group-hover:scale-110 transition-transform duration-500"
           />
->>>>>>> prof
+
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400">
             لا توجد صورة
@@ -50,12 +42,9 @@ const ProductCard = ({ product, modelView = 'normal' }:
         </div>
       </div>
 
-<<<<<<< HEAD
-      {/* Content Section */}
+
       <div className="p-5 grow">
-=======
-      <div className="p-5 flex-grow">
->>>>>>> prof
+
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-bold text-gray-800 truncate">{product.name}</h3>
           <span className="text-blue-700 font-black text-xl">${product.price}</span>

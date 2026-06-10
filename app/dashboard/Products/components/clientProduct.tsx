@@ -1,10 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
-<<<<<<< HEAD
-=======
 
->>>>>>> prof
 import ExcelImportComponent from './import';
 import { useProductSync } from '../hooks/useSync';
 import ActionToolbar from './actionToolBar';
@@ -19,11 +16,7 @@ const SearchComponent = dynamic(
   { ssr: false }
 );
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> prof
 const ProductCard = dynamic(
   () => import('../card/productCard'),
   {

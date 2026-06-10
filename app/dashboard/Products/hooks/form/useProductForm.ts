@@ -21,17 +21,7 @@ export const useProductForm = (
       initialData ?? INITIAL_FORM_STATE
     );
 
-<<<<<<< HEAD:app/dashboard/Products/hooks/rrrr/useProductForm.ts
-  useEffect(() => {
-    if (initialData) {
-      const handleState=()=>{
-      setFormData(initialData);
 
-      }
-      handleState()
-    }
-  }, [initialData]);
-=======
   const [appliedInitialData, setAppliedInitialData] =
     useState(initialData);
 
@@ -39,7 +29,6 @@ export const useProductForm = (
     setAppliedInitialData(initialData);
     setFormData(initialData);
   }
->>>>>>> prof:app/dashboard/Products/hooks/form/useProductForm.ts
 
   const updateField = useCallback(
     (
