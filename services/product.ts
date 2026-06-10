@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 
-import { Populated, Product } from "@/types/product"
-
-=======
-import { ProductSummary, Product, ProductListResponse } from "@/types/product"
+import {  Product, ProductListResponse, ProductSummary } from "@/types/product"
 import apiClient from "./index"
->>>>>>> prof
 import { ProductImport } from "@/app/dashboard/Products/components/import"
 import { db } from "@/localDB";
-import apiClient from ".";
 
 
 export const getProduct = async (page?: number, status?: string): Promise<ProductListResponse> => {
@@ -22,15 +16,10 @@ export const getProduct = async (page?: number, status?: string): Promise<Produc
 
 
 export const getPopulated = async () => {
-<<<<<<< HEAD
-    const res = await apiClient.get<Populated[]>('/product/populated/get')
-    if(Array.isArray(res.data)&&res.data.length){
-await db.products.bulkPut(res.data);
-=======
+
     const res = await apiClient.get<ProductSummary[]>('/product/populated')
     if (Array.isArray(res.data) && res.data.length) {
         await db.products.bulkPut(res.data);
->>>>>>> prof
     }
     return res.data
 }
@@ -62,15 +51,9 @@ export const deleteMany = (ids: string[]) => {
 
 }
 
-<<<<<<< HEAD
 
-export const saveLocal=async(products:{_id:string,isSync:boolean}[])=>{
-    try{
-          const res=await apiClient.put('/product/sync/saveLocal',products)
-=======
 export const saveLocal = async (products: { _id: string, isSync: boolean }[]) => {
     const res = await apiClient.put('/product/sync/saveLocal', products)
->>>>>>> prof
     return res.data
 }
 
@@ -83,7 +66,4 @@ export const getProductById = async (id: string) => {
     const response = await apiClient.get(`/product/${id}`);
     return response.data.data;
 };
-<<<<<<< HEAD
 
-=======
->>>>>>> prof

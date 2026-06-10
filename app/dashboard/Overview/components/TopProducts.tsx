@@ -3,9 +3,7 @@
 import React, { useMemo } from 'react';
 import { Box, Typography, Paper, LinearProgress } from '@mui/material';
 import { Crown, TrendingUp } from 'lucide-react';
-import { TopSellingProduct } from '@/types/overview';
 
-<<<<<<< HEAD
 export interface TopProduct {
     name: string;
     totalSales: number;
@@ -13,10 +11,7 @@ export interface TopProduct {
 }
 
 export default function TopProducts({ products }: { products: TopProduct[] }) {
-    // حساب القيمة العظمى للمقارنة في أشرطة التقدم
-=======
-export default function TopProducts({ products }: { products: TopSellingProduct[] }) {
->>>>>>> prof
+
     const maxSales = useMemo(() => {
         return products.length > 0 ? Math.max(...products.map(p => p.totalSales)) : 1;
     }, [products]);
@@ -53,23 +48,18 @@ export default function TopProducts({ products }: { products: TopSellingProduct[
                     const progressValue = (product.totalSales / maxSales) * 100;
 
                     return (
-<<<<<<< HEAD
                         <Box key={index} className="flex items-start gap-4">
                             {/* رقم الترتيب */}
                             <Typography 
                                 variant="h6" 
-=======
-                        <Box key={product._id} className="flex items-start gap-4">
-                            <Typography
-                                variant="h6"
->>>>>>> prof
+
                                 className={`font-black italic ${index === 0 ? 'text-yellow-500' : 'text-gray-200'}`}
                                 style={{ minWidth: '32px' }}
                             >
                                 #{index + 1}
                             </Typography>
 
-                            <Box className="flex-grow">
+                            <Box className="grow">
                                 <Box className="flex justify-between items-end mb-1.5">
                                     <Typography variant="body2" className="font-bold text-gray-800">
                                         {product.name}

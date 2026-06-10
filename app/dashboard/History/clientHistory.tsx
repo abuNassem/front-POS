@@ -35,19 +35,12 @@ const ClientHistory = () => {
     }, [queryClient]);
 
     const renderedSales = useMemo(() => {
-<<<<<<< HEAD
         return data?.map((sale: Sale) => (
             <InvoiceCard 
                 key={sale._id} 
                 sale={sale} 
                 handleDelete={handleDelete} 
-=======
-        return data?.map((sale: Sale, index: number) => (
-            <InvoiceCard
-                key={sale._id ?? index}
-                sale={sale}
-                handleDelete={handleDelete}
->>>>>>> prof
+
             />
         ));
     }, [data, handleDelete]);
